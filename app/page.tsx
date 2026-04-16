@@ -4,8 +4,9 @@ import { useState, useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon } from 'lucide-react'
+import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon, CalendarDays } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
+import Script from 'next/script'
 import ChatWidget from './components/ChatWidget'
 import PortfolioGallery from './components/PortfolioGallery'
 import ReviewCarousel from './components/ReviewCarousel'
@@ -113,7 +114,8 @@ export default function Home() {
               <div className="w-7 h-7 rounded-full border-2 flex items-center justify-center" style={{ borderColor: 'var(--color-accent)' }}>
                 <Scissors size={11} style={{ color: 'var(--color-accent)' }} />
               </div>
-              <span className="text-sm font-bold tracking-widest uppercase">Kris Professional Cuts</span>
+              <span className="text-sm font-bold tracking-widest uppercase hidden xs:inline sm:inline">Kris Professional Cuts</span>
+              <span className="text-sm font-bold tracking-widest uppercase sm:hidden">Kris Pro Cuts</span>
             </button>
 
             {/* Desktop nav */}
@@ -128,7 +130,7 @@ export default function Home() {
             {/* Book + hamburger */}
             <div className="flex items-center gap-3">
               <button
-                onClick={() => scrollTo('#contact')}
+                onClick={() => scrollTo('#booking-form')}
                 className="hidden md:block text-white text-xs font-bold px-5 py-2.5 rounded-full tracking-widest uppercase transition"
                 style={{ background: 'var(--color-cta)' }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
@@ -153,7 +155,7 @@ export default function Home() {
               <button onClick={() => scrollTo('#reviews')}  className="text-left py-1 text-sm hover:text-white transition">Reviews</button>
               <button onClick={() => scrollTo('#contact')}  className="text-left py-1 text-sm hover:text-white transition">Contact</button>
               <button
-                onClick={() => scrollTo('#contact')}
+                onClick={() => scrollTo('#booking-form')}
                 className="text-white text-xs font-bold px-5 py-2.5 rounded-full tracking-widest uppercase w-fit mt-1"
                 style={{ background: 'var(--color-cta)' }}
               >
@@ -171,17 +173,17 @@ export default function Home() {
 
         {/* Background photo — clearer than before */}
         <img
-          src="/kris cuts.jpg"
+          src="/kris-cuts.jpg"
           alt="Kris cutting hair"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: 'brightness(0.62)', transform: 'scale(1.03)', objectPosition: 'center 15%' }}
+          style={{ filter: 'brightness(0.82)', transform: 'scale(1.03)', objectPosition: 'center 15%' }}
         />
 
-        {/* Gradient — readable text on left, image visible through right AND left edge */}
+        {/* Gradient — mobile: full cover; desktop: dark left, fade right */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to right, rgba(7,9,15,0.88) 0%, rgba(7,9,15,0.6) 38%, rgba(7,9,15,0.15) 65%, transparent 100%)',
+            background: 'linear-gradient(to right, rgba(7,9,15,0.85) 0%, rgba(7,9,15,0.6) 45%, rgba(7,9,15,0.2) 70%, transparent 100%)',
           }}
         />
         <div
@@ -199,7 +201,7 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="hero-heading text-5xl md:text-6xl lg:text-7xl font-black leading-[1.0] tracking-tight mb-6">
+          <h1 className="hero-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.0] tracking-tight mb-6">
             We Will<br />
             Make You<br />
             <span style={{ color: 'var(--color-accent)' }}>Look Your<br />Best.</span>
@@ -211,7 +213,7 @@ export default function Home() {
 
           <div className="hero-cta flex items-center gap-4 flex-wrap mb-4">
             <button
-              onClick={() => scrollTo('#contact')}
+              onClick={() => scrollTo('#booking-form')}
               className="text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide transition shadow-lg"
               style={{ background: 'var(--color-cta)' }}
               onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
@@ -246,7 +248,7 @@ export default function Home() {
       {/* ════════════════════════════════════════════
           SECTION 2 — REVIEWS + PORTFOLIO
       ════════════════════════════════════════════ */}
-      <section id="reviews" className="py-24 px-8 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
+      <section id="reviews" className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
         <div className="max-w-6xl mx-auto">
 
           {/* Section label */}
@@ -290,10 +292,17 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
               {services.map((s) => (
-                <div key={s.name} className="flex items-center justify-between border-b pb-3" style={{ borderColor: 'var(--color-border)' }}>
-                  <span className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.name}</span>
+                <button
+                  key={s.name}
+                  onClick={() => { setFormService(s.name); scrollTo('#booking-form') }}
+                  className="flex items-center justify-between border-b pb-3 text-left transition group"
+                  style={{ borderColor: 'var(--color-border)' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--color-border)')}
+                >
+                  <span className="text-sm transition group-hover:text-white" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.name}</span>
                   <span className="text-sm font-bold" style={{ color: 'var(--color-accent)' }}>{s.price}</span>
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -304,7 +313,7 @@ export default function Home() {
       {/* ════════════════════════════════════════════
           SECTION 3 — BOOKING + MAP
       ════════════════════════════════════════════ */}
-      <section id="contact" className="py-24 px-8 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
+      <section id="contact" className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
         <div className="max-w-6xl mx-auto">
 
           {/* Asymmetric header */}
@@ -329,6 +338,7 @@ export default function Home() {
 
             {/* Booking form */}
             <div
+              id="booking-form"
               className="p-8 rounded-2xl border"
               style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}
               data-gsap="fade-up"
@@ -381,7 +391,25 @@ export default function Home() {
                   onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
                   onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-cta)')}
                 >
-                  Book Appointment
+                  Send Request
+                </button>
+
+                <div className="flex items-center gap-3 my-1">
+                  <div className="flex-1 h-px" style={{ background: 'var(--color-border)' }} />
+                  <span className="text-xs" style={{ color: 'var(--color-text-dim)' }}>or</span>
+                  <div className="flex-1 h-px" style={{ background: 'var(--color-border)' }} />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => (window as any).Calendly?.initPopupWidget({ url: 'https://calendly.com/treybrucem/kris-p-cuts' })}
+                  className="flex items-center justify-center gap-2 text-white font-bold py-3.5 rounded-full text-sm tracking-wide transition border"
+                  style={{ borderColor: 'var(--color-cta)', color: 'var(--color-cta)', background: 'transparent' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-cta)'; e.currentTarget.style.color = '#fff' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-cta)' }}
+                >
+                  <CalendarDays size={14} />
+                  Pick a Date & Time
                 </button>
               </form>
             </div>
@@ -452,6 +480,7 @@ export default function Home() {
       </footer>
 
       <ChatWidget />
+      <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />
     </main>
   )
 }
