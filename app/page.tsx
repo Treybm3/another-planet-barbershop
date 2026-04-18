@@ -168,7 +168,7 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
 
         <img
-          src="/frontpic.jpg"
+          src="/frontpic (2).jpg"
           alt="Another Planet Barbershop"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ objectPosition: 'center 42%', filter: 'brightness(0.88) contrast(1.1) saturate(1.05)' }}
