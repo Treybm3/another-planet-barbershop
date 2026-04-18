@@ -32,12 +32,17 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState('')
   const [showErrors, setShowErrors]           = useState(false)
   const [booked, setBooked]                   = useState(false)
+  const [cancelUrl, setCancelUrl]             = useState('')
+  const [rescheduleUrl, setRescheduleUrl]     = useState('')
   const lenisRef       = useRef<Lenis | null>(null)
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       if (e.data?.event === 'calendly.event_scheduled') {
+        const invitee = e.data?.payload?.invitee
+        if (invitee?.cancel_url)     setCancelUrl(invitee.cancel_url)
+        if (invitee?.reschedule_url) setRescheduleUrl(invitee.reschedule_url)
         setBooked(true)
         setTimeout(() => setBooked(false), 8000)
       }
@@ -118,11 +123,22 @@ export default function Home() {
         <div className="fixed top-6 left-1/2 z-[100] -translate-x-1/2 w-[90vw] max-w-md px-6 py-4 rounded-2xl shadow-2xl border flex items-start gap-3"
           style={{ background: 'var(--color-surface)', borderColor: 'var(--color-cta)' }}>
           <span className="text-2xl">✅</span>
-          <div>
+          <div className="flex-1">
             <p className="font-bold text-sm text-white">Appointment Scheduled!</p>
-            <p className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
-              Check your email to reschedule or cancel if needed.
-            </p>
+            <div className="flex gap-3 mt-2">
+              {cancelUrl && (
+                <a href={cancelUrl} target="_blank" rel="noopener noreferrer"
+                  className="text-xs font-semibold underline underline-offset-2" style={{ color: '#f87171' }}>
+                  Cancel
+                </a>
+              )}
+              {rescheduleUrl && (
+                <a href={rescheduleUrl} target="_blank" rel="noopener noreferrer"
+                  className="text-xs font-semibold underline underline-offset-2" style={{ color: '#c084fc' }}>
+                  Reschedule
+                </a>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -248,7 +264,7 @@ export default function Home() {
               </span>
             </div>
             <a
-              href="https://calendly.com/treybrucem/kris-p-cuts"
+              href={cancelUrl || 'https://calendly.com/treybrucem/kris-p-cuts'}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-full border transition w-fit hover:text-white hover:border-white"
@@ -451,7 +467,7 @@ export default function Home() {
 
                 {/* Cancel / Reschedule */}
                 <a
-                  href="https://calendly.com/treybrucem/kris-p-cuts"
+                  href={cancelUrl || 'https://calendly.com/treybrucem/kris-p-cuts'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 text-sm font-semibold py-3 rounded-full border transition hover:text-white hover:border-white"
