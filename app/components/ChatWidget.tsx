@@ -106,7 +106,7 @@ export default function ChatWidget() {
   return (
     <>
       {/* Floating button */}
-      <div className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3">
+      <div className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50 flex items-center gap-3">
         {showLabel && !open && (
           <div className="text-white text-sm font-medium px-4 py-2 rounded-full shadow-lg whitespace-nowrap animate-pulse border" style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
             💬 Chat with us
@@ -130,7 +130,7 @@ export default function ChatWidget() {
       {/* Chat panel */}
       {open && (
         <div
-          className="fixed bottom-24 right-3 sm:right-6 z-50 w-[calc(100vw-1.5rem)] sm:w-[340px] md:w-[380px] max-w-[400px] rounded-2xl overflow-hidden shadow-2xl flex flex-col border"
+          className="fixed bottom-36 right-3 md:bottom-24 md:right-6 z-50 w-[calc(100vw-1.5rem)] sm:w-[340px] md:w-[380px] max-w-[400px] rounded-2xl overflow-hidden shadow-2xl flex flex-col border"
           style={{ height: '480px', background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
         >
           {/* Header */}
