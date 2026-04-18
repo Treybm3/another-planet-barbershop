@@ -28,6 +28,7 @@ export default function Home() {
   const [bookHighlight, setBookHighlight]     = useState(false)
   const [firstName, setFirstName]             = useState('')
   const [lastName, setLastName]               = useState('')
+  const [email, setEmail]                     = useState('')
   const [selectedService, setSelectedService] = useState('')
   const [showErrors, setShowErrors]           = useState(false)
   const [booked, setBooked]                   = useState(false)
@@ -94,7 +95,7 @@ export default function Home() {
   }
 
   function openCalendly() {
-    if (!firstName.trim() || !lastName.trim() || !selectedService) {
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !selectedService) {
       setShowErrors(true)
       return
     }
@@ -103,7 +104,7 @@ export default function Home() {
       url: 'https://calendly.com/treybrucem/kris-p-cuts',
       prefill: {
         name: `${firstName.trim()} ${lastName.trim()}`,
-        email: 'booking@anotherplanetbarbershop.com',
+        email: email.trim(),
         customAnswers: { a1: selectedService },
       },
     })
@@ -381,6 +382,22 @@ export default function Home() {
                     />
                     {showErrors && !lastName.trim() && <span className="text-xs" style={{ color: '#f87171' }}>Required</span>}
                   </div>
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col gap-1">
+                  <input
+                    type="email" placeholder="Email — for cancel/reschedule link" value={email}
+                    onChange={e => { setEmail(e.target.value); setShowErrors(false) }}
+                    className={`bg-transparent pb-2.5 text-white text-sm placeholder-slate-600 focus:outline-none transition border-b ${!showErrors && !email.trim() ? 'email-field-pulse' : ''}`}
+                    style={{ borderColor: showErrors && !email.trim() ? '#f87171' : undefined }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-cta)'; e.currentTarget.classList.remove('email-field-pulse') }}
+                    onBlur={e => { e.currentTarget.style.borderColor = showErrors && !email.trim() ? '#f87171' : ''; if (!email.trim() && !showErrors) e.currentTarget.classList.add('email-field-pulse') }}
+                  />
+                  {showErrors && !email.trim()
+                    ? <span className="error-flash text-xs" style={{ color: '#f87171' }}>Field required</span>
+                    : <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>Used to send you a cancel/reschedule link</span>
+                  }
                 </div>
 
                 {/* Service */}

@@ -28,6 +28,22 @@ body {
   letter-spacing: -0.01em;
 }
 
+@keyframes border-pulse {
+  0%, 100% { border-color: rgba(168, 85, 247, 0.25); }
+  50%       { border-color: rgba(168, 85, 247, 0.85); }
+}
+.email-field-pulse {
+  animation: border-pulse 2s ease-in-out infinite;
+}
+
+@keyframes text-flash {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+.error-flash {
+  animation: text-flash 0.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
