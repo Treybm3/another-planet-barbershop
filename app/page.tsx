@@ -13,13 +13,13 @@ import ReviewCarousel from './components/ReviewCarousel'
 gsap.registerPlugin(ScrollTrigger)
 
 const services = [
-  { name: 'Burst Fade',     price: '$40', desc: 'Rounded fade bursting from the ear' },
-  { name: 'Temp Fade',      price: '$40', desc: 'Sharp temple taper, clean finish' },
-  { name: 'Full Cut',       price: '$45', desc: 'Complete cut shaped to your style' },
-  { name: 'Skin Fade',      price: '$45', desc: 'Seamless blend down to the skin' },
-  { name: 'Line Up',        price: '$20', desc: 'Crisp edges and clean lines' },
-  { name: 'Face Touch Up',  price: '$20', desc: 'Edge up and facial clean-up' },
-  { name: 'Beard Trim',     price: '$20', desc: 'Defined shape and sharp edges' },
+  { name: 'Burst Fade',     price: '$35', desc: 'Rounded fade bursting from the ear' },
+  { name: 'Temp Fade',      price: '$35', desc: 'Sharp temple taper, clean finish' },
+  { name: 'Full Cut',       price: '$35', desc: 'Complete cut shaped to your style' },
+  { name: 'Skin Fade',      price: '$35', desc: 'Seamless blend down to the skin' },
+  { name: 'Line Up',        price: '$25', desc: 'Crisp edges and clean lines' },
+  { name: 'Face Touch Up',  price: '$35', desc: 'Edge up and facial clean-up' },
+  { name: 'Beard Trim',     price: '$35', desc: 'Defined shape and sharp edges' },
   { name: 'Kids Cut',       price: '$35', desc: 'Patient, precise cuts for kids' },
 ]
 
