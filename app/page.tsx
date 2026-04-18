@@ -42,14 +42,15 @@ export default function Home() {
       try {
         const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
         if (data?.event === 'calendly.event_scheduled') {
-          const invitee = data?.payload?.invitee
-          if (invitee?.cancel_url) {
-            setCancelUrl(invitee.cancel_url)
-            localStorage.setItem('anp_cancel_url', invitee.cancel_url)
-          }
-          if (invitee?.reschedule_url) {
-            setRescheduleUrl(invitee.reschedule_url)
-            localStorage.setItem('anp_reschedule_url', invitee.reschedule_url)
+          const inviteeUri: string = data?.payload?.invitee?.uri ?? ''
+          const uuid = inviteeUri.split('/').pop()
+          if (uuid) {
+            const cancel     = `https://calendly.com/cancellations/${uuid}`
+            const reschedule = `https://calendly.com/reschedulings/${uuid}`
+            setCancelUrl(cancel)
+            setRescheduleUrl(reschedule)
+            localStorage.setItem('anp_cancel_url', cancel)
+            localStorage.setItem('anp_reschedule_url', reschedule)
           }
           setBooked(true)
           setTimeout(() => setBooked(false), 8000)
