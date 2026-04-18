@@ -1,25 +1,22 @@
 @import "tailwindcss";
 
-/* ── Site theme variables ───────────────────────────────────────────────────
-   Change these to retheme the entire site instantly.
-────────────────────────────────────────────────────────────────────────── */
 :root {
-  --color-bg:           #07090f;
-  --color-surface:      #0d1117;
+  --color-bg:           #080808;
+  --color-surface:      #111111;
   --color-border:       rgba(255, 255, 255, 0.08);
-  --color-accent:       #f1f5f9;   /* off-white — decorative labels, dividers, prices */
-  --color-accent-hover: #ffffff;
-  --color-cta:          #3b82f6;   /* blue — buttons and chat only */
-  --color-cta-hover:    #60a5fa;
+  --color-accent:       #fbbf24;   /* yellow — decorative labels, prices */
+  --color-accent-hover: #fcd34d;
+  --color-cta:          #f05050;   /* light red — buttons and chat */
+  --color-cta-hover:    #f47070;
   --color-text:         #ffffff;
-  --color-text-muted:   #94a3b8;   /* slate-400 */
-  --color-text-dim:     #1e293b;   /* slate-800 */
-  --nav-bg:             rgba(7, 9, 15, 0.94);
+  --color-text-muted:   #94a3b8;
+  --color-text-dim:     #1e293b;
+  --nav-bg:             rgba(8, 8, 8, 0.96);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-outfit);
+  --font-mono: var(--font-outfit);
 }
 
 body {
@@ -31,9 +28,6 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* ── Reduced motion ─────────────────────────────────────────────────────────
-   Respects the OS "reduce motion" accessibility setting.
-────────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

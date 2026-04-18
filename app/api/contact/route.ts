@@ -8,11 +8,10 @@ export async function POST(request: Request) {
 
   await resend.emails.send({
     from: 'onboarding@resend.dev',
-    // TODO: Replace with Kris's actual email address
-    to: 'krisprofessionalcuts@gmail.com',
+    to: 'williepeters226@gmail.com',
     subject: `New Appointment Request from ${name}`,
     html: `
-      <h2>New Appointment Request — Kris Professional Cuts</h2>
+      <h2>New Appointment Request — Another Planet Barbershop</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Message:</strong> ${message}</p>

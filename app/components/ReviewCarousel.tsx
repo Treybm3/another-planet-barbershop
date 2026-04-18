@@ -5,44 +5,32 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 
 const reviews = [
   {
-    name: 'Dorrion McMurray',
-    text: 'The best barber in Lansing hands down. I\'ve been coming to Kris for almost 10 years, I won\'t let anyone else cut my hair except him.',
-    tag: 'Loyal client · 10 years',
+    name: 'Gavin Mackinder',
+    text: "Im not gonna lie if you like to look good this the place to go. He did an excellent job on my mid drop fade. Highly recommend! He makes sure you walk out of his shop happy. I will definitely be returning!",
   },
   {
-    name: 'Shane Jordan',
-    text: 'Kris is always so professional and makes you feel welcome. He\'s a safe space, and I always leave looking my best everytime.',
-    tag: '$30–40',
+    name: 'Joseph Michael',
+    text: "Hands down one of the best barber shops I've been to. Super professional, clean environment, and the attention to detail is unmatched. My cut came out exactly how I wanted it. You can tell they really care about their craft. I'll definitely be coming back and recommending this place to everyone.",
   },
   {
-    name: 'Devin Garza',
-    text: 'Best barbers in Lansing work here! Kris is a real down to earth guy — real easy to talk to. Will get you right everytime.',
-    tag: '$30–40',
+    name: 'Caitlin Keusch',
+    text: "I'm not usually a person who writes reviews, but I had to make an exception for Will! I have been thrilled by the quality of his work in the past few months I've been going to him. My hair can have a mind of its own sometimes, and I'm super particular about what I like, but I always walk out the door of his shop feeling good about myself. He is a total pro, a calming presence, and a genuinely kind man who lives to excel at his craft. ANYONE who's looking for a new barber should keep him in mind.",
   },
   {
-    name: 'Julian Briggs',
-    text: 'My guys get me right every time 😁 In and out service for myself and my two sons. These guys give back to the community — coaching basketball and football. Fourth annual Trunk or Treat in the parking lot this year!',
-    tag: 'Community member',
+    name: 'M W',
+    text: "We were looking for a barber open on Sunday and came across Another Planet Barber Company. We were so thankful they took walk ins, got my son in right away and hooked him up excellent and quick! Thank you — he is 100% satisfied!",
   },
   {
-    name: 'Chukuemeka Oje',
-    text: 'Fantastic place for you and your kid to get a haircut. Both my son and I get our hair cut here and I am always happy with the results. Highly recommend!',
-    tag: '$30–40',
+    name: 'Rachel Kelley',
+    text: "Worked quickly but efficiently. Hair cut came out just how we wanted, if not better! Very friendly and welcoming barber. Will definitely be a returning client.",
   },
   {
-    name: 'Meranda Petosky',
-    text: 'Donte does an amazing job every time. He\'s patient, professional, and makes my son feel comfortable in the chair. Always clean and exactly what we ask for. 👌🏽',
-    tag: '$20–30',
+    name: 'Brooke Lyons',
+    text: "Will did a great job on my son's hair. Moving here from Texas it was hard finding one we liked and safe to say will continue coming here in the future.",
   },
   {
-    name: 'Jade Bancroft',
-    text: 'Dante is always professional, attentive, and takes his time. The cut always comes out exactly how my son wants it. Definitely recommend.',
-    tag: '$20–30',
-  },
-  {
-    name: 'Lance McClellan',
-    text: 'I got a cut from Kaden. Great barber and very professional. Definitely would recommend.',
-    tag: '$20–30',
+    name: "Al'aina Rosas",
+    text: "Please come to this shop! I got my fiancée's haircut done here and it came out great! The barber's name is Will and he's very talented and friendly.",
   },
 ]
 

@@ -5,7 +5,6 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon, CalendarDays } from 'lucide-react'
-import toast, { Toaster } from 'react-hot-toast'
 import Script from 'next/script'
 import ChatWidget from './components/ChatWidget'
 import PortfolioGallery from './components/PortfolioGallery'
@@ -14,23 +13,25 @@ import ReviewCarousel from './components/ReviewCarousel'
 gsap.registerPlugin(ScrollTrigger)
 
 const services = [
-  { name: 'Regular Cut',  price: '$25', desc: 'Classic cut shaped to your style' },
-  { name: 'Skin Fade',    price: '$30', desc: 'Seamless blend down to the skin' },
-  { name: 'Taper Fade',   price: '$30', desc: 'Smooth taper from full to tight' },
-  { name: 'Temp Fade',    price: '$35', desc: 'Sharp temple taper, clean finish' },
-  { name: 'Cut & Beard',  price: '$45', desc: 'Full grooming — cut plus beard' },
-  { name: 'Beard Trim',   price: '$15', desc: 'Sharp lines and defined edges' },
-  { name: 'Kids Cut',     price: '$20', desc: 'Patient, precise cuts for kids' },
-  { name: 'Line Up',      price: '$15', desc: 'Crisp edges and clean lines' },
+  { name: 'Burst Fade',     price: '$40', desc: 'Rounded fade bursting from the ear' },
+  { name: 'Temp Fade',      price: '$40', desc: 'Sharp temple taper, clean finish' },
+  { name: 'Full Cut',       price: '$45', desc: 'Complete cut shaped to your style' },
+  { name: 'Skin Fade',      price: '$45', desc: 'Seamless blend down to the skin' },
+  { name: 'Line Up',        price: '$20', desc: 'Crisp edges and clean lines' },
+  { name: 'Face Touch Up',  price: '$20', desc: 'Edge up and facial clean-up' },
+  { name: 'Beard Trim',     price: '$20', desc: 'Defined shape and sharp edges' },
+  { name: 'Kids Cut',       price: '$35', desc: 'Patient, precise cuts for kids' },
 ]
 
 export default function Home() {
-  const [name, setName]           = useState('')
-  const [email, setEmail]         = useState('')
-  const [message, setMessage]     = useState('')
-  const [formService, setFormService] = useState('')
-  const [menuOpen, setMenuOpen]   = useState(false)
-  const lenisRef = useRef<Lenis | null>(null)
+  const [menuOpen, setMenuOpen]               = useState(false)
+  const [bookHighlight, setBookHighlight]     = useState(false)
+  const [firstName, setFirstName]             = useState('')
+  const [lastName, setLastName]               = useState('')
+  const [selectedService, setSelectedService] = useState('')
+  const [showErrors, setShowErrors]           = useState(false)
+  const lenisRef       = useRef<Lenis | null>(null)
+  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -47,7 +48,6 @@ export default function Home() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    // Hero — slide in from left
     gsap.timeline({ delay: 0.1 })
       .from('.hero-tag',     { x: -20, opacity: 0, duration: 0.5,  ease: 'power2.out' })
       .from('.hero-heading', { x: -30, opacity: 0, duration: 0.75, ease: 'power3.out' }, '-=0.2')
@@ -66,37 +66,39 @@ export default function Home() {
     return () => ScrollTrigger.getAll().forEach(t => t.kill())
   }, [])
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const id = toast.loading('Sending…')
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message: `Service: ${formService || 'Not specified'}\n\n${message}` }),
-      })
-      if (!res.ok) throw new Error()
-      toast.success("Sent! Kris will be in touch soon.", { id, duration: 4000 })
-      setName(''); setEmail(''); setMessage(''); setFormService('')
-    } catch {
-      toast.error('Something went wrong. Try again.', { id })
-    }
-  }
-
   function scrollTo(id: string) {
     lenisRef.current?.scrollTo(id, { duration: 1.2 })
     setMenuOpen(false)
   }
 
+  function goToBook(serviceName?: string) {
+    if (serviceName) setSelectedService(serviceName)
+    scrollTo('#contact')
+    if (highlightTimer.current) clearTimeout(highlightTimer.current)
+    setTimeout(() => {
+      setBookHighlight(true)
+      highlightTimer.current = setTimeout(() => setBookHighlight(false), 2000)
+    }, 900)
+  }
+
+  function openCalendly() {
+    if (!firstName.trim() || !lastName.trim() || !selectedService) {
+      setShowErrors(true)
+      return
+    }
+    setShowErrors(false)
+    ;(window as any).Calendly?.initPopupWidget({
+      url: 'https://calendly.com/treybrucem/kris-p-cuts',
+      prefill: {
+        name: `${firstName.trim()} ${lastName.trim()}`,
+        email: 'booking@anotherplanetbarbershop.com',
+        customAnswers: { a1: selectedService },
+      },
+    })
+  }
+
   return (
     <main className="min-h-screen text-white" style={{ background: 'var(--color-bg)' }}>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: { background: 'var(--color-surface)', color: 'var(--color-text)', border: '1px solid var(--color-border)' },
-          success: { iconTheme: { primary: 'var(--color-accent)', secondary: '#fff' } },
-        }}
-      />
 
       {/* ── Navbar ── */}
       <header>
@@ -104,33 +106,28 @@ export default function Home() {
           className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-white/[0.05]"
           style={{ background: 'var(--nav-bg)' }}
         >
-          <div className="flex justify-between items-center px-8 md:px-14 py-4 max-w-7xl mx-auto">
+          <div className="flex justify-between items-center px-6 md:px-14 py-4 max-w-7xl mx-auto">
 
-            {/* Brand */}
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="flex items-center gap-2.5"
             >
-              <div className="w-7 h-7 rounded-full border-2 flex items-center justify-center" style={{ borderColor: 'var(--color-accent)' }}>
-                <Scissors size={11} style={{ color: 'var(--color-accent)' }} />
-              </div>
-              <span className="text-sm font-bold tracking-widest uppercase hidden xs:inline sm:inline">Kris Professional Cuts</span>
-              <span className="text-sm font-bold tracking-widest uppercase sm:hidden">Kris Pro Cuts</span>
+              <img src="/logo.jpg" alt="Another Planet Barbershop" className="w-8 h-8 rounded-full object-cover" />
+              <span className="text-sm font-bold tracking-widest uppercase hidden sm:inline">Another Planet Barbershop</span>
+              <span className="text-sm font-bold tracking-widest uppercase sm:hidden">Another Planet</span>
             </button>
 
-            {/* Desktop nav */}
             <div className="hidden md:flex items-center gap-8 text-xs tracking-widest uppercase" style={{ color: 'var(--color-text-muted)' }}>
               <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Home">
                 <HomeIcon size={13} className="hover:text-white transition" />
               </button>
-              <button onClick={() => scrollTo('#reviews')}  className="hover:text-white transition">Reviews</button>
-              <button onClick={() => scrollTo('#contact')}  className="hover:text-white transition">Contact</button>
+              <button onClick={() => scrollTo('#reviews')} className="hover:text-white transition">Reviews</button>
+              <button onClick={() => scrollTo('#contact')} className="hover:text-white transition">Contact</button>
             </div>
 
-            {/* Book + hamburger */}
             <div className="flex items-center gap-3">
               <button
-                onClick={() => scrollTo('#booking-form')}
+                onClick={() => goToBook()}
                 className="hidden md:block text-white text-xs font-bold px-5 py-2.5 rounded-full tracking-widest uppercase transition"
                 style={{ background: 'var(--color-cta)' }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
@@ -149,13 +146,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile menu */}
           {menuOpen && (
             <div className="md:hidden flex flex-col px-8 pb-6 gap-4 border-t border-white/[0.05]" style={{ color: 'var(--color-text-muted)' }}>
-              <button onClick={() => scrollTo('#reviews')}  className="text-left py-1 text-sm hover:text-white transition">Reviews</button>
-              <button onClick={() => scrollTo('#contact')}  className="text-left py-1 text-sm hover:text-white transition">Contact</button>
+              <button onClick={() => scrollTo('#reviews')} className="text-left py-1 text-sm hover:text-white transition">Reviews</button>
+              <button onClick={() => scrollTo('#contact')} className="text-left py-1 text-sm hover:text-white transition">Contact</button>
               <button
-                onClick={() => scrollTo('#booking-form')}
+                onClick={() => goToBook()}
                 className="text-white text-xs font-bold px-5 py-2.5 rounded-full tracking-widest uppercase w-fit mt-1"
                 style={{ background: 'var(--color-cta)' }}
               >
@@ -171,49 +167,44 @@ export default function Home() {
       ════════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
 
-        {/* Background photo — clearer than before */}
         <img
-          src="/kris-cuts.jpg"
-          alt="Kris cutting hair"
+          src="/frontpic.jpg"
+          alt="Another Planet Barbershop"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: 'brightness(0.82)', transform: 'scale(1.03)', objectPosition: 'center 15%' }}
+          style={{ filter: 'brightness(0.88)', objectPosition: 'center 42%' }}
         />
 
-        {/* Gradient — mobile: full cover; desktop: dark left, fade right */}
         <div
           className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to right, rgba(7,9,15,0.85) 0%, rgba(7,9,15,0.6) 45%, rgba(7,9,15,0.2) 70%, transparent 100%)',
-          }}
+          style={{ background: 'linear-gradient(to right, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.45) 45%, rgba(8,8,8,0.1) 70%, transparent 100%)' }}
         />
         <div
           className="absolute inset-0"
           style={{ background: 'linear-gradient(to bottom, transparent 60%, var(--color-bg) 100%)' }}
         />
 
-        {/* Content — LEFT side */}
         <div className="relative z-10 px-8 md:px-14 max-w-xl w-full pt-24">
 
           <div className="hero-tag flex items-center gap-3 mb-6">
-            <div className="h-px w-8" style={{ background: 'var(--color-accent)' }} />
-            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-accent)' }}>
+            <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
+            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>
               Lansing, Michigan
             </span>
           </div>
 
           <h1 className="hero-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.0] tracking-tight mb-6">
-            We Will<br />
-            Make You<br />
-            <span style={{ color: 'var(--color-accent)' }}>Look Your<br />Best.</span>
+            Out Of This<br />
+            <span style={{ color: '#a855f7' }}>World</span><br />
+            Cuts &amp;<br />Fades.
           </h1>
 
           <p className="hero-sub text-base md:text-lg mb-8 leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
-            Precision barbering, real community,<br />and cuts you'll come back for.
+            Precision fades, clean cuts, and a vibe<br />like no other place in Lansing.
           </p>
 
           <div className="hero-cta flex items-center gap-4 flex-wrap mb-4">
             <button
-              onClick={() => scrollTo('#booking-form')}
+              onClick={() => goToBook()}
               className="text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide transition shadow-lg"
               style={{ background: 'var(--color-cta)' }}
               onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
@@ -229,16 +220,14 @@ export default function Home() {
             </span>
           </div>
 
-          {/* 5-star + review count */}
           <div className="hero-social flex items-center gap-3">
             <span className="text-xl tracking-wide drop-shadow-lg" style={{ color: '#f59e0b', textShadow: '0 0 12px rgba(245,158,11,0.6)' }}>★★★★★</span>
             <div className="h-4 w-px" style={{ background: 'rgba(255,255,255,0.15)' }} />
-            <span className="text-sm font-black">150+</span>
-            <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>Google Reviews</span>
+            <span className="text-sm font-black">5.0</span>
+            <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>Google Rating</span>
           </div>
         </div>
 
-        {/* Scroll cue */}
         <div className="absolute bottom-10 left-8 md:left-14 flex items-center gap-3" style={{ color: 'rgba(255,255,255,0.2)' }}>
           <div className="w-px h-10 bg-current animate-pulse" />
           <span className="text-[10px] tracking-[0.25em] uppercase">Scroll</span>
@@ -251,19 +240,16 @@ export default function Home() {
       <section id="reviews" className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
         <div className="max-w-6xl mx-auto">
 
-          {/* Section label */}
           <div className="flex items-center gap-3 mb-16" data-gsap="fade-up">
-            <div className="h-px w-8" style={{ background: 'var(--color-accent)' }} />
-            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-accent)' }}>
+            <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
+            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>
               What Clients Say
             </span>
             <div className="h-px flex-1 max-w-[40px]" style={{ background: 'var(--color-border)' }} />
           </div>
 
-          {/* Asymmetric grid — reviews left wider, portfolio right */}
           <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr] gap-16 items-start">
 
-            {/* Left — reviews carousel + heading */}
             <div>
               <h2 className="text-4xl md:text-5xl font-black leading-tight mb-10" data-gsap="fade-up">
                 Real People.<br />
@@ -272,11 +258,10 @@ export default function Home() {
               <ReviewCarousel />
             </div>
 
-            {/* Right — portfolio slideshow, offset down */}
             <div id="portfolio" className="lg:mt-16" data-gsap="fade-up">
               <div className="flex items-center gap-3 mb-6">
-                <div className="h-px w-8" style={{ background: 'var(--color-accent)' }} />
-                <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-accent)' }}>
+                <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
+                <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>
                   The Work
                 </span>
               </div>
@@ -287,14 +272,14 @@ export default function Home() {
           {/* Services strip */}
           <div className="mt-20 pt-10 border-t" style={{ borderColor: 'var(--color-border)' }} data-gsap="fade-up">
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-8" style={{ background: 'var(--color-accent)' }} />
-              <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-accent)' }}>Services & Pricing</span>
+              <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
+              <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>Services & Pricing</span>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
               {services.map((s) => (
                 <button
                   key={s.name}
-                  onClick={() => { setFormService(s.name); scrollTo('#booking-form') }}
+                  onClick={() => goToBook(s.name)}
                   className="flex items-center justify-between border-b pb-3 text-left transition group"
                   style={{ borderColor: 'var(--color-border)' }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
@@ -316,24 +301,18 @@ export default function Home() {
       <section id="contact" className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
         <div className="max-w-6xl mx-auto">
 
-          {/* Asymmetric header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14" data-gsap="fade-up">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-8" style={{ background: 'var(--color-accent)' }} />
-                <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-accent)' }}>Ready?</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black leading-tight">
-                Book Your<br />
-                <span style={{ color: 'var(--color-accent)' }}>Appointment.</span>
-              </h2>
+          {/* Header */}
+          <div className="mb-14" data-gsap="fade-up">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
+              <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>Ready?</span>
             </div>
-            <div className="text-sm leading-relaxed md:text-right" style={{ color: 'var(--color-text-muted)' }}>
-              Fill out the form and Kris<br />will reach out to confirm your time.
-            </div>
+            <h2 className="text-4xl md:text-5xl font-black leading-tight">
+              Book Your<br />
+              <span style={{ color: 'var(--color-accent)' }}>Appointment.</span>
+            </h2>
           </div>
 
-          {/* Two-column: form left, map right */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
 
             {/* Booking form */}
@@ -344,120 +323,121 @@ export default function Home() {
               data-gsap="fade-up"
             >
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.12)' }}>
-                  <Scissors size={12} style={{ color: 'var(--color-accent)' }} />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(168,85,247,0.12)' }}>
+                  <Scissors size={12} style={{ color: 'var(--color-cta)' }} />
                 </div>
-                <span className="font-bold text-sm">Request an Appointment</span>
+                <span className="font-bold text-sm">Your Info</span>
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <input
-                  type="text" placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} required
-                  className="bg-transparent pb-2.5 text-white text-sm placeholder-slate-700 focus:outline-none transition border-b"
-                  style={{ borderColor: 'rgba(255,255,255,0.09)' }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)')}
-                />
-                <input
-                  type="email" placeholder="Your Email" value={email} onChange={e => setEmail(e.target.value)} required
-                  className="bg-transparent pb-2.5 text-white text-sm placeholder-slate-700 focus:outline-none transition border-b"
-                  style={{ borderColor: 'rgba(255,255,255,0.09)' }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)')}
-                />
-                <select
-                  value={formService} onChange={e => setFormService(e.target.value)}
-                  className="bg-transparent pb-2.5 text-sm focus:outline-none transition border-b appearance-none cursor-pointer"
-                  style={{ borderColor: 'rgba(255,255,255,0.09)', color: formService ? 'var(--color-text)' : '#4b5563' }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)')}
-                >
-                  <option value="" disabled style={{ background: '#0d1117' }}>Select a Service</option>
-                  {services.map(s => (
-                    <option key={s.name} value={s.name} style={{ background: '#0d1117' }}>{s.name} — {s.price}</option>
-                  ))}
-                </select>
-                <textarea
-                  placeholder="Preferred day/time, or anything else…" value={message} onChange={e => setMessage(e.target.value)}
-                  className="bg-transparent pb-2.5 text-white text-sm placeholder-slate-700 h-24 focus:outline-none transition resize-none border-b"
-                  style={{ borderColor: 'rgba(255,255,255,0.09)' }}
-                  onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-accent)')}
-                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)')}
-                />
+              <div className="flex flex-col gap-5">
+
+                {/* First + Last name row */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1">
+                    <input
+                      type="text" placeholder="First Name" value={firstName}
+                      onChange={e => { setFirstName(e.target.value); setShowErrors(false) }}
+                      className="bg-transparent pb-2.5 text-white text-sm placeholder-slate-700 focus:outline-none transition border-b"
+                      style={{ borderColor: showErrors && !firstName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
+                      onBlur={e => (e.currentTarget.style.borderColor = showErrors && !firstName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)')}
+                    />
+                    {showErrors && !firstName.trim() && <span className="text-xs" style={{ color: '#f87171' }}>Required</span>}
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <input
+                      type="text" placeholder="Last Name" value={lastName}
+                      onChange={e => { setLastName(e.target.value); setShowErrors(false) }}
+                      className="bg-transparent pb-2.5 text-white text-sm placeholder-slate-700 focus:outline-none transition border-b"
+                      style={{ borderColor: showErrors && !lastName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
+                      onBlur={e => (e.currentTarget.style.borderColor = showErrors && !lastName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)')}
+                    />
+                    {showErrors && !lastName.trim() && <span className="text-xs" style={{ color: '#f87171' }}>Required</span>}
+                  </div>
+                </div>
+
+                {/* Service */}
+                <div className="flex flex-col gap-1">
+                  <select
+                    value={selectedService}
+                    onChange={e => { setSelectedService(e.target.value); setShowErrors(false) }}
+                    className="bg-transparent pb-2.5 text-sm focus:outline-none transition border-b appearance-none cursor-pointer"
+                    style={{
+                      borderColor: showErrors && !selectedService ? '#f87171' : 'rgba(255,255,255,0.09)',
+                      color: selectedService ? 'var(--color-text)' : '#4b5563',
+                    }}
+                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
+                    onBlur={e => (e.currentTarget.style.borderColor = showErrors && !selectedService ? '#f87171' : 'rgba(255,255,255,0.09)')}
+                  >
+                    <option value="" disabled style={{ background: '#0d1117' }}>Select a Service</option>
+                    {services.map(s => (
+                      <option key={s.name} value={s.name} style={{ background: '#0d1117' }}>{s.name} — {s.price}</option>
+                    ))}
+                  </select>
+                  {showErrors && !selectedService && <span className="text-xs" style={{ color: '#f87171' }}>Required</span>}
+                </div>
+
+                {/* Calendly button */}
                 <button
-                  type="submit"
-                  className="mt-1 text-white font-bold py-3.5 rounded-full text-sm tracking-wide transition"
-                  style={{ background: 'var(--color-cta)' }}
+                  onClick={openCalendly}
+                  className="mt-1 flex items-center justify-center gap-2 text-white font-bold py-3.5 rounded-full text-sm tracking-wide transition"
+                  style={{
+                    background: 'var(--color-cta)',
+                    outline: bookHighlight ? '2px solid #c084fc' : '2px solid transparent',
+                    outlineOffset: '4px',
+                    transition: 'background 0.2s, outline 0.5s ease',
+                  }}
                   onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
                   onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-cta)')}
                 >
-                  Send Request
-                </button>
-
-                <div className="flex items-center gap-3 my-1">
-                  <div className="flex-1 h-px" style={{ background: 'var(--color-border)' }} />
-                  <span className="text-xs" style={{ color: 'var(--color-text-dim)' }}>or</span>
-                  <div className="flex-1 h-px" style={{ background: 'var(--color-border)' }} />
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => (window as any).Calendly?.initPopupWidget({ url: 'https://calendly.com/treybrucem/kris-p-cuts' })}
-                  className="flex items-center justify-center gap-2 text-white font-bold py-3.5 rounded-full text-sm tracking-wide transition border"
-                  style={{ borderColor: 'var(--color-cta)', color: 'var(--color-cta)', background: 'transparent' }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-cta)'; e.currentTarget.style.color = '#fff' }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-cta)' }}
-                >
                   <CalendarDays size={14} />
-                  Pick a Date & Time
+                  Pick a Date &amp; Time
                 </button>
-              </form>
+              </div>
             </div>
 
-            {/* Map + info stacked */}
+            {/* Map + info */}
             <div className="flex flex-col gap-5" data-gsap="fade-up">
 
-              {/* Google Map */}
               <div className="rounded-2xl overflow-hidden" style={{ height: '280px' }}>
                 <iframe
-                  src="https://maps.google.com/maps?q=6231+Bishop+Rd+Lansing+MI+48911&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=4306+Martin+Luther+King+Blvd+Lansing+MI+48911&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   width="100%" height="100%"
                   style={{ border: 0, filter: 'grayscale(15%) contrast(1.05)' }}
                   allowFullScreen loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Kris Professional Cuts location"
+                  title="Another Planet Barbershop location"
                 />
               </div>
 
-              {/* Info card */}
               <div
                 className="p-5 rounded-2xl border flex flex-col gap-4 text-sm"
                 style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}
               >
                 <div className="flex items-start gap-3">
-                  <MapPin size={14} className="shrink-0 mt-0.5" style={{ color: 'var(--color-accent)' }} />
-                  <span style={{ color: 'var(--color-text-muted)' }}>6231 Bishop Rd, Lansing, MI 48911</span>
+                  <MapPin size={14} className="shrink-0 mt-0.5" style={{ color: 'var(--color-cta)' }} />
+                  <span style={{ color: 'var(--color-text-muted)' }}>4306 Martin Luther King Blvd, Lansing, MI 48911</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Phone size={14} className="shrink-0" style={{ color: 'var(--color-accent)' }} />
-                  {/* TODO: Replace with Kris's real phone number */}
-                  <span style={{ color: 'var(--color-text-muted)' }}>(517) 505-2039</span>
+                  <Phone size={14} className="shrink-0" style={{ color: 'var(--color-cta)' }} />
+                  <span style={{ color: 'var(--color-text-muted)' }}>(517) 253-8053</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Clock size={14} className="shrink-0 mt-1" style={{ color: 'var(--color-accent)' }} />
+                  <Clock size={14} className="shrink-0 mt-1" style={{ color: 'var(--color-cta)' }} />
                   <div className="flex flex-col gap-1 text-xs" style={{ color: 'var(--color-text-muted)' }}>
                     {[
+                      { day: 'Monday',    hours: '9AM – 6PM' },
                       { day: 'Tuesday',   hours: '9AM – 6PM' },
                       { day: 'Wednesday', hours: '9AM – 6PM' },
                       { day: 'Thursday',  hours: '9AM – 6PM' },
                       { day: 'Friday',    hours: '9AM – 6PM' },
                       { day: 'Saturday',  hours: '9AM – 6PM' },
-                      { day: 'Sunday',    hours: 'Closed',    closed: true },
-                      { day: 'Monday',    hours: 'Closed',    closed: true },
-                    ].map(({ day, hours, closed }) => (
+                      { day: 'Sunday',    hours: '10AM – 12PM' },
+                    ].map(({ day, hours }) => (
                       <div key={day} className="flex items-center justify-between gap-6">
-                        <span className="font-medium" style={{ color: closed ? 'var(--color-text-dim)' : 'var(--color-text)' }}>{day}</span>
-                        <span style={{ color: closed ? 'var(--color-text-dim)' : 'var(--color-accent)' }}>{hours}</span>
+                        <span className="font-medium" style={{ color: 'var(--color-text)' }}>{day}</span>
+                        <span style={{ color: 'var(--color-accent)' }}>{hours}</span>
                       </div>
                     ))}
                   </div>
@@ -472,10 +452,10 @@ export default function Home() {
       <footer className="px-8 md:px-14 py-8 border-t" style={{ borderColor: 'var(--color-border)' }}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs" style={{ color: 'var(--color-text-dim)' }}>
           <div className="flex items-center gap-2">
-            <Scissors size={11} style={{ color: 'var(--color-accent)' }} />
-            <span className="font-semibold">Kris Professional Cuts</span>
+            <Scissors size={11} style={{ color: 'var(--color-cta)' }} />
+            <span className="font-semibold">Another Planet Barbershop</span>
           </div>
-          <span>© 2025 · 6231 Bishop Rd, Lansing, MI · Tue–Sat 9AM–6PM · Closed Sun &amp; Mon</span>
+          <span>© 2025 · 4306 MLK Blvd, Lansing, MI 48911 · (517) 253-8053</span>
         </div>
       </footer>
 

@@ -139,7 +139,7 @@ export default function ChatWidget() {
               <Scissors size={14} className="text-white" />
             </div>
             <div>
-              <div className="text-white text-sm font-bold leading-tight">Kris Professional Cuts</div>
+              <div className="text-white text-sm font-bold leading-tight">Another Planet Barbershop</div>
               <div className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>AI Assistant · replies instantly</div>
             </div>
             <button onClick={() => setOpen(false)} className="ml-auto transition hover:text-white" style={{ color: 'var(--color-text-dim)' }}>
@@ -152,7 +152,7 @@ export default function ChatWidget() {
             {messages.length === 0 && (
               <div className="flex flex-col gap-3">
                 <div className="text-sm rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%] leading-relaxed" style={{ background: 'var(--color-surface)', color: 'var(--color-text-muted)' }}>
-                  Hey! 👋 I'm Kris's assistant. Ask me about cuts, pricing, or booking.
+                  Hey! 👋 I'm Another Planet's assistant. Ask me about cuts, pricing, or booking.
                 </div>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {SUGGESTIONS.map(s => (

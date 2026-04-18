@@ -4,17 +4,16 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, X, Grid3X3 } from 'lucide-react'
 
 const images = [
-  { src: '/pic1.jpg',      alt: 'Clean Cut',       label: 'Precision Cut' },
-  { src: '/pic2.jpg',      alt: 'Fade',             label: 'Skin Fade' },
-  { src: '/pic3.jpg',      alt: 'Taper Fade',       label: 'Taper Fade' },
-  { src: '/pic4.jpg',      alt: 'Cut',              label: 'Fresh Cut' },
-  { src: '/pic5.jpg',      alt: 'Style',            label: 'Line Up' },
-  { src: '/pic6.jpg',      alt: 'Fade',             label: 'Temp Fade' },
-  { src: '/pic8.jpg',      alt: 'Cut',              label: 'Beard Trim' },
-  { src: '/outerior.jpg',  alt: 'The Building',     label: 'Our Shop — Outside' },
-  { src: '/outerior2.jpg', alt: 'The Building',     label: 'Our Shop — Outside' },
-  { src: '/interior1.jpg', alt: 'Inside the Shop',  label: 'Inside the Shop' },
-  { src: '/barberseat.jpg',alt: 'The Barber Chair', label: 'The Chair' },
+  { src: '/anp1.jpg',            alt: 'Fresh Cut',      label: 'Fresh Cut' },
+  { src: '/anp2.jpg',            alt: 'Burst Fade',     label: 'Burst Fade' },
+  { src: '/anp3.jpg',            alt: 'Temp Fade',      label: 'Temp Fade' },
+  { src: '/anp4.jpg',            alt: 'Full Cut',       label: 'Full Cut' },
+  { src: '/anp5.jpg',            alt: 'Skin Fade',      label: 'Skin Fade' },
+  { src: '/anp6.jpg',            alt: 'Line Up',        label: 'Line Up' },
+  { src: '/anp7.jpg',            alt: 'Precision Cut',  label: 'Precision Cut' },
+  { src: '/anp8.jpg',            alt: 'Clean Fade',     label: 'Clean Fade' },
+  { src: '/anpouterior.jpg.jpg', alt: 'The Shop',       label: 'Our Shop' },
+  { src: '/frontpic.jpg',        alt: 'Another Planet', label: 'Another Planet Barbershop' },
 ]
 
 const FADE_MS = 350

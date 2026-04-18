@@ -5,12 +5,12 @@ import './globals.css'
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', weight: ['300', '400', '500', '600', '700', '800', '900'] })
 
 export const metadata: Metadata = {
-  title: "Kris Professional Cuts | Barbershop in Lansing, Michigan",
-  description: "Premium barbershop in Lansing, Michigan. Precision fades, clean cuts, beard trims and more. Book your appointment today with Kris Professional Cuts.",
-  keywords: "barbershop lansing michigan, fade haircut lansing, barber near me, professional cuts, beard trim, kris professional cuts",
+  title: "Another Planet Barbershop | Lansing, Michigan",
+  description: "Premium barbershop in Lansing, Michigan. Expert fades, clean cuts, and beard work by Will. Walk-ins welcome at Another Planet Barbershop.",
+  keywords: "barbershop lansing michigan, fade haircut lansing, barber near me, another planet barbershop, will barber lansing",
   openGraph: {
-    title: "Kris Professional Cuts | Barbershop in Lansing, Michigan",
-    description: "Precision fades, clean cuts, and expert grooming in Lansing, Michigan.",
+    title: "Another Planet Barbershop | Lansing, Michigan",
+    description: "Expert fades, clean cuts, and beard work in Lansing, Michigan.",
     type: "website",
   },
 }
