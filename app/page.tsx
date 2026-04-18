@@ -39,19 +39,22 @@ export default function Home() {
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
-      if (e.data?.event === 'calendly.event_scheduled') {
-        const invitee = e.data?.payload?.invitee
-        if (invitee?.cancel_url) {
-          setCancelUrl(invitee.cancel_url)
-          localStorage.setItem('anp_cancel_url', invitee.cancel_url)
+      try {
+        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
+        if (data?.event === 'calendly.event_scheduled') {
+          const invitee = data?.payload?.invitee
+          if (invitee?.cancel_url) {
+            setCancelUrl(invitee.cancel_url)
+            localStorage.setItem('anp_cancel_url', invitee.cancel_url)
+          }
+          if (invitee?.reschedule_url) {
+            setRescheduleUrl(invitee.reschedule_url)
+            localStorage.setItem('anp_reschedule_url', invitee.reschedule_url)
+          }
+          setBooked(true)
+          setTimeout(() => setBooked(false), 8000)
         }
-        if (invitee?.reschedule_url) {
-          setRescheduleUrl(invitee.reschedule_url)
-          localStorage.setItem('anp_reschedule_url', invitee.reschedule_url)
-        }
-        setBooked(true)
-        setTimeout(() => setBooked(false), 8000)
-      }
+      } catch {}
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
