@@ -28,7 +28,6 @@ export default function Home() {
   const [bookHighlight, setBookHighlight]     = useState(false)
   const [firstName, setFirstName]             = useState('')
   const [lastName, setLastName]               = useState('')
-  const [phone, setPhone]                     = useState('')
   const [selectedService, setSelectedService] = useState('')
   const [showErrors, setShowErrors]           = useState(false)
   const [booked, setBooked]                   = useState(false)
@@ -117,7 +116,7 @@ export default function Home() {
   }
 
   function openCalendly() {
-    if (!firstName.trim() || !lastName.trim() || !phone.trim() || !selectedService) {
+    if (!firstName.trim() || !lastName.trim() || !selectedService) {
       setShowErrors(true)
       return
     }
@@ -126,7 +125,7 @@ export default function Home() {
       url: 'https://calendly.com/treybrucem/another-planet-barber',
       prefill: {
         name: `${firstName.trim()} ${lastName.trim()}`,
-        customAnswers: { a1: phone.trim(), a2: selectedService },
+        customAnswers: { a1: selectedService },
       },
     })
   }
@@ -456,21 +455,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Email */}
-                <div className="flex flex-col gap-1">
-                  <input
-                    type="tel" placeholder="Phone number" value={phone}
-                    onChange={e => { setPhone(e.target.value); setShowErrors(false) }}
-                    className={`bg-transparent pb-2.5 text-white text-sm placeholder-slate-600 focus:outline-none transition border-b ${!showErrors && !phone.trim() ? 'email-field-pulse' : ''}`}
-                    style={{ borderColor: showErrors && !phone.trim() ? '#f87171' : undefined }}
-                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--color-cta)'; e.currentTarget.classList.remove('email-field-pulse') }}
-                    onBlur={e => { e.currentTarget.style.borderColor = showErrors && !phone.trim() ? '#f87171' : ''; if (!phone.trim() && !showErrors) e.currentTarget.classList.add('email-field-pulse') }}
-                  />
-                  {showErrors && !phone.trim()
-                    ? <span className="error-flash text-xs" style={{ color: '#f87171' }}>Field required</span>
-                    : <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>For appointment reminders &amp; updates</span>
-                  }
-                </div>
 
                 {/* Service */}
                 <div className="flex flex-col gap-1">
