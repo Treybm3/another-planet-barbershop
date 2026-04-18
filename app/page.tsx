@@ -32,8 +32,8 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState('')
   const [showErrors, setShowErrors]           = useState(false)
   const [booked, setBooked]                   = useState(false)
-  const [cancelUrl, setCancelUrl]             = useState('')
-  const [rescheduleUrl, setRescheduleUrl]     = useState('')
+  const [cancelUrl, setCancelUrl]             = useState(() => typeof window !== 'undefined' ? localStorage.getItem('anp_cancel_url') || '' : '')
+  const [rescheduleUrl, setRescheduleUrl]     = useState(() => typeof window !== 'undefined' ? localStorage.getItem('anp_reschedule_url') || '' : '')
   const lenisRef       = useRef<Lenis | null>(null)
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -41,8 +41,14 @@ export default function Home() {
     function onMessage(e: MessageEvent) {
       if (e.data?.event === 'calendly.event_scheduled') {
         const invitee = e.data?.payload?.invitee
-        if (invitee?.cancel_url)     setCancelUrl(invitee.cancel_url)
-        if (invitee?.reschedule_url) setRescheduleUrl(invitee.reschedule_url)
+        if (invitee?.cancel_url) {
+          setCancelUrl(invitee.cancel_url)
+          localStorage.setItem('anp_cancel_url', invitee.cancel_url)
+        }
+        if (invitee?.reschedule_url) {
+          setRescheduleUrl(invitee.reschedule_url)
+          localStorage.setItem('anp_reschedule_url', invitee.reschedule_url)
+        }
         setBooked(true)
         setTimeout(() => setBooked(false), 8000)
       }
