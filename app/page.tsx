@@ -170,6 +170,14 @@ export default function Home() {
 
             <div className="flex items-center gap-3">
               <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                aria-label="Home"
+                className="md:hidden"
+                style={{ color: 'var(--color-text-muted)' }}
+              >
+                <HomeIcon size={16} className="hover:text-white transition" />
+              </button>
+              <button
                 onClick={() => goToBook()}
                 className="hidden md:block text-white text-xs font-bold px-5 py-2.5 rounded-full tracking-widest uppercase transition"
                 style={{ background: 'var(--color-cta)' }}
@@ -267,10 +275,10 @@ export default function Home() {
               href={cancelUrl || 'https://calendly.com/treybrucem/kris-p-cuts'}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-full border transition w-fit hover:text-white hover:border-white"
-              style={{ borderColor: 'rgba(255,255,255,0.35)', color: 'rgba(255,255,255,0.7)' }}
+              className="text-xs underline underline-offset-4 w-fit hover:text-white transition"
+              style={{ color: 'rgba(255,255,255,0.45)' }}
             >
-              Cancel or Reschedule
+              Cancel or Reschedule an Appointment
             </a>
           </div>
 
