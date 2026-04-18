@@ -229,22 +229,33 @@ export default function Home() {
             Precision fades, clean cuts, and a vibe<br />like no other place in Lansing.
           </p>
 
-          <div className="hero-cta flex items-center gap-4 flex-wrap mb-4">
-            <button
-              onClick={() => goToBook()}
-              className="text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide transition shadow-lg"
-              style={{ background: 'var(--color-cta)' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-cta)')}
+          <div className="hero-cta flex flex-col gap-3 mb-4">
+            <div className="flex items-center gap-4 flex-wrap">
+              <button
+                onClick={() => goToBook()}
+                className="text-white font-bold px-8 py-4 rounded-full text-sm tracking-wide transition shadow-lg"
+                style={{ background: 'var(--color-cta)' }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-cta)')}
+              >
+                Book an Appointment
+              </button>
+              <span
+                className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full border"
+                style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' }}
+              >
+                Walk-ins Welcome
+              </span>
+            </div>
+            <a
+              href="https://calendly.com/treybrucem/kris-p-cuts"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-full border transition w-fit hover:text-white hover:border-white"
+              style={{ borderColor: 'rgba(255,255,255,0.35)', color: 'rgba(255,255,255,0.7)' }}
             >
-              Book an Appointment
-            </button>
-            <span
-              className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full border"
-              style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' }}
-            >
-              Walk-ins Welcome
-            </span>
+              Cancel or Reschedule
+            </a>
           </div>
 
           <div className="hero-social flex items-center gap-3">
@@ -443,10 +454,10 @@ export default function Home() {
                   href="https://calendly.com/treybrucem/kris-p-cuts"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-center text-xs underline underline-offset-4 transition hover:text-white"
-                  style={{ color: 'var(--color-text-muted)' }}
+                  className="flex items-center justify-center gap-2 text-sm font-semibold py-3 rounded-full border transition hover:text-white hover:border-white"
+                  style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.6)' }}
                 >
-                  Need to cancel or reschedule? Click here
+                  Cancel or Reschedule
                 </a>
               </div>
             </div>
