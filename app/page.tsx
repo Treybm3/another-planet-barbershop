@@ -437,6 +437,17 @@ export default function Home() {
                   <CalendarDays size={14} />
                   Pick a Date &amp; Time
                 </button>
+
+                {/* Cancel / Reschedule */}
+                <a
+                  href="https://calendly.com/treybrucem/kris-p-cuts"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-center text-xs underline underline-offset-4 transition hover:text-white"
+                  style={{ color: 'var(--color-text-muted)' }}
+                >
+                  Need to cancel or reschedule? Click here
+                </a>
               </div>
             </div>
 
