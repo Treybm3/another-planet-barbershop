@@ -133,7 +133,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen text-white" style={{ background: 'var(--color-bg)' }}>
+    <main className="min-h-screen text-white pb-16 md:pb-0" style={{ background: 'var(--color-bg)' }}>
 
       {/* ── Booking confirmation banner ── */}
       {booked && (
@@ -229,6 +229,27 @@ export default function Home() {
           )}
         </nav>
       </header>
+
+      {/* ── Mobile bottom nav ── */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around px-2 py-2 border-t border-white/[0.08]"
+        style={{ background: 'rgba(8,8,8,0.97)', backdropFilter: 'blur(12px)' }}>
+        <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex flex-col items-center gap-1 px-3 py-1" style={{ color: 'var(--color-text-muted)' }}>
+          <HomeIcon size={18} />
+          <span className="text-[10px] tracking-wide">Home</span>
+        </button>
+        <button onClick={() => scrollTo('#reviews')} className="flex flex-col items-center gap-1 px-3 py-1" style={{ color: 'var(--color-text-muted)' }}>
+          <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span className="text-[10px] tracking-wide">Reviews</span>
+        </button>
+        <button onClick={() => scrollTo('#contact')} className="flex flex-col items-center gap-1 px-3 py-1" style={{ color: 'var(--color-text-muted)' }}>
+          <CalendarDays size={18} />
+          <span className="text-[10px] tracking-wide">Contact</span>
+        </button>
+        <button onClick={() => goToBook()} className="flex flex-col items-center gap-1 px-3 py-1 rounded-xl text-white font-bold" style={{ background: 'var(--color-cta)' }}>
+          <Scissors size={18} />
+          <span className="text-[10px] tracking-wide">Book</span>
+        </button>
+      </nav>
 
       {/* ════════════════════════════════════════════
           SECTION 1 — HERO
