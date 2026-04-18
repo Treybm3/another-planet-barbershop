@@ -126,7 +126,7 @@ export default function Home() {
       url: 'https://calendly.com/treybrucem/another-planet-barber',
       prefill: {
         name: `${firstName.trim()} ${lastName.trim()}`,
-        customAnswers: { a1: selectedService, a2: phone.trim() },
+        customAnswers: { a1: phone.trim(), a2: selectedService },
       },
     })
   }
