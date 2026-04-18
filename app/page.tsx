@@ -32,8 +32,8 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState('')
   const [showErrors, setShowErrors]           = useState(false)
   const [booked, setBooked]                   = useState(false)
-  const [cancelUrl, setCancelUrl]             = useState(() => typeof window !== 'undefined' ? localStorage.getItem('anp_cancel_url') || '' : '')
-  const [rescheduleUrl, setRescheduleUrl]     = useState(() => typeof window !== 'undefined' ? localStorage.getItem('anp_reschedule_url') || '' : '')
+  const [cancelUrl, setCancelUrl]         = useState('')
+  const [rescheduleUrl, setRescheduleUrl] = useState('')
   const lenisRef       = useRef<Lenis | null>(null)
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -58,6 +58,13 @@ export default function Home() {
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
+  }, [])
+
+  useEffect(() => {
+    const c = localStorage.getItem('anp_cancel_url')
+    const r = localStorage.getItem('anp_reschedule_url')
+    if (c) setCancelUrl(c)
+    if (r) setRescheduleUrl(r)
   }, [])
 
   useEffect(() => {
