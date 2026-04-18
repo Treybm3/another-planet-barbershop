@@ -321,8 +321,8 @@ export default function Home() {
           <div className="hero-social flex flex-col gap-1">
             <span className="text-lg tracking-widest drop-shadow-lg" style={{ color: '#f59e0b', textShadow: '0 0 14px rgba(245,158,11,0.7)' }}>★★★★★</span>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-black text-white">500+</span>
-              <span className="text-sm font-semibold tracking-wide" style={{ color: 'rgba(255,255,255,0.55)' }}>Happy Clients &amp; Counting</span>
+              <span className="text-2xl font-black" style={{ color: '#f59e0b' }}>500+</span>
+              <span className="text-sm font-semibold tracking-wide" style={{ color: '#f59e0b', opacity: 0.8 }}>Happy Clients &amp; Counting</span>
             </div>
           </div>
         </div>
