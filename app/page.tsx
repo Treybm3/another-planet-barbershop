@@ -30,8 +30,20 @@ export default function Home() {
   const [lastName, setLastName]               = useState('')
   const [selectedService, setSelectedService] = useState('')
   const [showErrors, setShowErrors]           = useState(false)
+  const [booked, setBooked]                   = useState(false)
   const lenisRef       = useRef<Lenis | null>(null)
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    function onMessage(e: MessageEvent) {
+      if (e.data?.event === 'calendly.event_scheduled') {
+        setBooked(true)
+        setTimeout(() => setBooked(false), 8000)
+      }
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -99,6 +111,20 @@ export default function Home() {
 
   return (
     <main className="min-h-screen text-white" style={{ background: 'var(--color-bg)' }}>
+
+      {/* ── Booking confirmation banner ── */}
+      {booked && (
+        <div className="fixed top-6 left-1/2 z-[100] -translate-x-1/2 w-[90vw] max-w-md px-6 py-4 rounded-2xl shadow-2xl border flex items-start gap-3"
+          style={{ background: 'var(--color-surface)', borderColor: 'var(--color-cta)' }}>
+          <span className="text-2xl">✅</span>
+          <div>
+            <p className="font-bold text-sm text-white">Appointment Scheduled!</p>
+            <p className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
+              Check your email to reschedule or cancel if needed.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* ── Navbar ── */}
       <header>
