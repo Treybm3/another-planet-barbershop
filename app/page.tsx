@@ -5,7 +5,6 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon, CalendarDays } from 'lucide-react'
-import Image from 'next/image'
 import Script from 'next/script'
 import ChatWidget from './components/ChatWidget'
 import PortfolioGallery from './components/PortfolioGallery'
@@ -168,14 +167,11 @@ export default function Home() {
       ════════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
 
-        <Image
+        <img
           src="/frontpic.jpg"
           alt="Another Planet Barbershop"
-          fill
-          priority
-          quality={100}
-          className="object-cover"
-          style={{ objectPosition: 'center 42%', filter: 'brightness(0.88)' }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: 'center 42%', filter: 'brightness(0.88) contrast(1.1) saturate(1.05)' }}
         />
 
         <div
