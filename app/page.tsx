@@ -318,11 +318,12 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="hero-social flex items-center gap-3">
-            <span className="text-xl tracking-wide drop-shadow-lg" style={{ color: '#f59e0b', textShadow: '0 0 12px rgba(245,158,11,0.6)' }}>★★★★★</span>
-            <div className="h-4 w-px" style={{ background: 'rgba(255,255,255,0.15)' }} />
-            <span className="text-sm font-black">5.0</span>
-            <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>Google Rating</span>
+          <div className="hero-social flex flex-col gap-1">
+            <span className="text-lg tracking-widest drop-shadow-lg" style={{ color: '#f59e0b', textShadow: '0 0 14px rgba(245,158,11,0.7)' }}>★★★★★</span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-black text-white">500+</span>
+              <span className="text-sm font-semibold tracking-wide" style={{ color: 'rgba(255,255,255,0.55)' }}>Happy Clients &amp; Counting</span>
+            </div>
           </div>
         </div>
 
