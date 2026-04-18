@@ -123,7 +123,7 @@ export default function Home() {
     }
     setShowErrors(false)
     ;(window as any).Calendly?.initPopupWidget({
-      url: 'https://calendly.com/treybrucem/kris-p-cuts',
+      url: 'https://calendly.com/treybrucem/another-planet-barber',
       prefill: {
         name: `${firstName.trim()} ${lastName.trim()}`,
         email: email.trim(),
@@ -310,7 +310,7 @@ export default function Home() {
               </span>
             </div>
             <a
-              href={cancelUrl || 'https://calendly.com/treybrucem/kris-p-cuts'}
+              href={cancelUrl || 'https://calendly.com/treybrucem/another-planet-barber'}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs underline underline-offset-4 w-fit hover:text-white transition"
@@ -513,7 +513,7 @@ export default function Home() {
 
                 {/* Cancel / Reschedule */}
                 <a
-                  href={cancelUrl || 'https://calendly.com/treybrucem/kris-p-cuts'}
+                  href={cancelUrl || 'https://calendly.com/treybrucem/another-planet-barber'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 text-sm font-semibold py-3 rounded-full border transition hover:text-white hover:border-white"
