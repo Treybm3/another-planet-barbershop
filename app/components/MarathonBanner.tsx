@@ -6,6 +6,12 @@ import { Flame, Users } from 'lucide-react'
 const MARATHON_DATE = 'June 2026'
 const LS_KEY        = 'anp_marathon_in'
 
+function getToday() {
+  return new Date().toLocaleDateString('en-US', {
+    timeZone: 'America/Detroit', year: 'numeric', month: '2-digit', day: '2-digit',
+  })
+}
+
 type Dot = { x: number; y: number; size: number; opacity: number; delay: number }
 
 export default function MarathonBanner() {
@@ -15,7 +21,7 @@ export default function MarathonBanner() {
   const [dots,    setDots]    = useState<Dot[]>([])
 
   useEffect(() => {
-    if (localStorage.getItem(LS_KEY) === 'true') setClicked(true)
+    if (localStorage.getItem(LS_KEY) === getToday()) setClicked(true)
     fetch('/api/marathon', { cache: 'no-store' })
       .then(r => r.json())
       .then(d => setCount(d.count))
@@ -39,7 +45,7 @@ export default function MarathonBanner() {
       const data = await res.json()
       setCount(data.count)
       setClicked(true)
-      localStorage.setItem(LS_KEY, 'true')
+      localStorage.setItem(LS_KEY, getToday())
     } finally {
       setLoading(false)
     }
