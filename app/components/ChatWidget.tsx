@@ -136,7 +136,7 @@ export default function ChatWidget() {
       {open && (
         <div
           className="fixed bottom-36 right-3 md:bottom-24 md:right-6 z-50 w-[calc(100vw-1.5rem)] sm:w-[340px] md:w-[380px] max-w-[400px] rounded-2xl overflow-hidden shadow-2xl flex flex-col border"
-          style={{ height: '480px', background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
+          style={{ height: 'min(480px, calc(100dvh - 180px))', background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3.5 border-b shrink-0" style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
@@ -211,8 +211,8 @@ export default function ChatWidget() {
               onKeyDown={handleKey}
               placeholder="Ask anything…"
               disabled={loading}
-              className="flex-1 text-white text-sm placeholder-slate-600 px-4 py-2.5 rounded-full focus:outline-none disabled:opacity-50 transition border"
-              style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
+              className="flex-1 text-white placeholder-slate-600 px-4 py-2.5 rounded-full focus:outline-none disabled:opacity-50 transition border"
+              style={{ fontSize: '16px', background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
             />
             <button
               onClick={() => send(input)}
