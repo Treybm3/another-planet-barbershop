@@ -1,6 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextRequest } from 'next/server'
 
+export const runtime = 'edge'
+
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const SYSTEM = `You are the friendly virtual assistant for Another Planet Barbershop, a premium barbershop in Lansing, Michigan run by barber Will.
