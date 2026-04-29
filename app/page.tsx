@@ -25,6 +25,7 @@ const services = [
 ]
 
 export default function Home() {
+  const [available, setAvailable] = useState<boolean | null>(null)
   const [menuOpen, setMenuOpen]               = useState(false)
   const [bookHighlight, setBookHighlight]     = useState(false)
   const [firstName, setFirstName]             = useState('')
@@ -59,6 +60,13 @@ export default function Home() {
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
+  }, [])
+
+  useEffect(() => {
+    fetch('/api/availability', { cache: 'no-store' })
+      .then(r => r.json())
+      .then(d => setAvailable(d.available))
+      .catch(() => setAvailable(null))
   }, [])
 
   useEffect(() => {
@@ -289,6 +297,18 @@ export default function Home() {
           <p className="hero-sub text-base md:text-lg mb-8 leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
             Precision fades, clean cuts, and a vibe<br />like no other place in Lansing.
           </p>
+
+          {available !== null && (
+            <div className="hero-cta flex items-center gap-2 mb-4">
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ background: available ? '#4ade80' : '#f87171', boxShadow: available ? '0 0 6px #4ade80' : 'none' }}
+              />
+              <span className="text-xs font-semibold tracking-wide" style={{ color: available ? '#4ade80' : '#f87171' }}>
+                {available ? 'Taking Walk-ins Now' : 'Not Taking Walk-ins'}
+              </span>
+            </div>
+          )}
 
           <div className="hero-cta flex flex-col gap-3 mb-4">
             <div className="flex items-center gap-4 flex-wrap">
