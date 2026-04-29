@@ -13,7 +13,7 @@ const SUGGESTIONS = [
 ]
 
 // Render assistant message — turns [BOOK_LINK] into a styled button
-function MessageContent({ text }: { text: string }) {
+function MessageContent({ text, onClose }: { text: string; onClose: () => void }) {
   const parts = text.split('[BOOK_LINK]')
   return (
     <>
@@ -23,7 +23,12 @@ function MessageContent({ text }: { text: string }) {
           {i < parts.length - 1 && (
             <a
               href="#contact"
-              onClick={() => window.scrollTo({ top: document.getElementById('contact')?.offsetTop ?? 0, behavior: 'smooth' })}
+              onClick={() => {
+                onClose()
+                setTimeout(() => {
+                  window.scrollTo({ top: document.getElementById('contact')?.offsetTop ?? 0, behavior: 'smooth' })
+                }, 150)
+              }}
               className="mt-2 flex items-center gap-2 text-white text-xs font-bold px-4 py-2 rounded-full transition w-fit"
               style={{ background: 'var(--color-cta)' }}
             >
@@ -179,7 +184,7 @@ export default function ChatWidget() {
                       : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderRadius: '0.25rem 1rem 1rem 1rem' }
                   }
                 >
-                  {m.role === 'assistant' ? <MessageContent text={m.content} /> : m.content}
+                  {m.role === 'assistant' ? <MessageContent text={m.content} onClose={() => setOpen(false)} /> : m.content}
                 </div>
               </div>
             ))}
