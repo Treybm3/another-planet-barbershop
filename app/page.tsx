@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon, CalendarDays } from 'lucide-react'
 import Script from 'next/script'
 import ChatWidget from './components/ChatWidget'
+import MarathonBanner from './components/MarathonBanner'
 import PortfolioGallery from './components/PortfolioGallery'
 import ReviewCarousel from './components/ReviewCarousel'
 
@@ -332,6 +333,8 @@ export default function Home() {
           <span className="text-[10px] tracking-[0.25em] uppercase">Scroll</span>
         </div>
       </section>
+
+      <MarathonBanner />
 
       {/* ════════════════════════════════════════════
           SECTION 2 — REVIEWS + PORTFOLIO
