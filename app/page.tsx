@@ -8,6 +8,7 @@ import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon, CalendarDays
 import Script from 'next/script'
 import ChatWidget from './components/ChatWidget'
 import MarathonBanner from './components/MarathonBanner'
+import MarathonIntro from './components/MarathonIntro'
 import PortfolioGallery from './components/PortfolioGallery'
 import ReviewCarousel from './components/ReviewCarousel'
 
@@ -141,6 +142,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen text-white pb-16 md:pb-0" style={{ background: 'var(--color-bg)' }}>
+      <MarathonIntro />
 
       {/* ── Booking confirmation banner ── */}
       {booked && (
