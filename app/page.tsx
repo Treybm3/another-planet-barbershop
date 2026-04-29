@@ -341,19 +341,31 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="hero-social flex flex-col gap-1">
-            <span className="text-lg tracking-widest drop-shadow-lg" style={{ color: '#f59e0b', textShadow: '0 0 14px rgba(245,158,11,0.7)' }}>★★★★★</span>
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-black" style={{ color: '#f59e0b' }}>500+</span>
-              <span className="text-sm font-semibold tracking-wide" style={{ color: '#f59e0b', opacity: 0.8 }}>Happy Clients &amp; Counting</span>
+          <div className="hero-social">
+            <div
+              className="inline-flex items-center gap-3 px-4 py-3 rounded-2xl border"
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.09)', backdropFilter: 'blur(10px)' }}
+            >
+              {/* Google G */}
+              <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+                <span className="text-sm font-black" style={{ color: '#4285F4' }}>G</span>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm font-black text-white">5.0</span>
+                  <div className="flex gap-px">
+                    {[0,1,2,3,4].map(i => (
+                      <span key={i} style={{ color: '#f59e0b', fontSize: '13px', lineHeight: 1 }}>★</span>
+                    ))}
+                  </div>
+                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.38)' }}>· 500+ reviews</span>
+                </div>
+                <span className="text-[10px] tracking-wide" style={{ color: 'rgba(255,255,255,0.28)' }}>Google Reviews</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-10 left-8 md:left-14 flex items-center gap-3" style={{ color: 'rgba(255,255,255,0.2)' }}>
-          <div className="w-px h-10 bg-current animate-pulse" />
-          <span className="text-[10px] tracking-[0.25em] uppercase">Scroll</span>
-        </div>
       </section>
 
       <MarathonBanner />
