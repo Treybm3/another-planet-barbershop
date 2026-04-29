@@ -12,8 +12,9 @@ export default function AdminPage() {
   const [saved,     setSaved]     = useState(false)
 
   useEffect(() => {
-    const stored = sessionStorage.getItem('anp_admin_authed')
-    if (stored === 'true') {
+    const storedPin = sessionStorage.getItem('anp_pin')
+    if (storedPin) {
+      setPin(storedPin)
       setAuthed(true)
       fetchStatus()
     }
@@ -39,7 +40,7 @@ export default function AdminPage() {
       setLoading(false)
       return
     }
-    sessionStorage.setItem('anp_admin_authed', 'true')
+    sessionStorage.setItem('anp_pin', pin)
     setAuthed(true)
     await fetchStatus()
     setLoading(false)
@@ -52,7 +53,7 @@ export default function AdminPage() {
     const res  = await fetch('/api/availability', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ pin: sessionStorage.getItem('anp_pin') ?? pin, available: next }),
+      body:    JSON.stringify({ pin, available: next }),
     })
     if (res.ok) {
       setAvailable(next)
@@ -111,24 +112,19 @@ export default function AdminPage() {
           <span className="text-white font-bold tracking-wide">Another Planet · Admin</span>
         </div>
 
-        {/* Big toggle */}
         <div
           className="w-full rounded-3xl p-8 flex flex-col items-center gap-6 border"
           style={{ background: '#111', borderColor: 'rgba(255,255,255,0.06)' }}
         >
           <div className="text-center">
-            <div
-              className="text-2xl font-black mb-1"
-              style={{ color: available ? '#4ade80' : '#f87171' }}
-            >
+            <div className="text-2xl font-black mb-1" style={{ color: available ? '#4ade80' : '#f87171' }}>
               {available ? 'Taking Walk-ins' : 'Fully Booked'}
             </div>
             <div className="text-xs" style={{ color: '#52525b' }}>
-              {available ? 'Clients can see you\'re open' : 'Clients see you\'re not taking walk-ins'}
+              {available ? "Clients can see you're open" : "Clients see you're not taking walk-ins"}
             </div>
           </div>
 
-          {/* Toggle switch */}
           <button
             onClick={toggle}
             disabled={loading}
@@ -141,9 +137,7 @@ export default function AdminPage() {
             />
           </button>
 
-          {saved && (
-            <p className="text-xs font-semibold" style={{ color: '#4ade80' }}>✓ Updated</p>
-          )}
+          {saved && <p className="text-xs font-semibold" style={{ color: '#4ade80' }}>✓ Updated</p>}
         </div>
 
         <p className="text-xs text-center" style={{ color: '#3f3f46' }}>
