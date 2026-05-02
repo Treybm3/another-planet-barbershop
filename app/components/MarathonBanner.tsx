@@ -132,7 +132,7 @@ export default function MarathonBanner() {
                   />
                 )}
                 <span className="relative">
-                  {clicked ? '✓ You\'re In!' : loading ? '…' : '🙋 Count Me In'}
+                  {clicked ? '✓ You\'re In!' : loading ? '…' : 'Count Me In'}
                 </span>
               </button>
             </div>
