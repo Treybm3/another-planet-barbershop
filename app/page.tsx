@@ -334,7 +334,7 @@ export default function Home() {
               {services.map((s) => (
                 <button
                   key={s.name}
-                  onClick={() => goToBook(s.name)}
+                  onClick={() => goToBook()}
                   className="flex items-center justify-between border-b pb-3 text-left transition group"
                   style={{ borderColor: 'var(--color-border)' }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
