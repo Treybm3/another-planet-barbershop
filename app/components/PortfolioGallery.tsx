@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, X, Grid3X3 } from 'lucide-react'
 
-const images = [
+type Photo = { src: string; alt: string; label: string }
+
+const STATIC_IMAGES: Photo[] = [
   { src: '/anp1.jpg',            alt: 'Fresh Cut',      label: 'Fresh Cut' },
   { src: '/anp2.jpg',            alt: 'Burst Fade',     label: 'Burst Fade' },
   { src: '/anp3.jpg',            alt: 'Temp Fade',      label: 'Temp Fade' },
@@ -20,12 +22,20 @@ const FADE_MS = 350
 const AUTO_MS = 2000
 
 export default function PortfolioGallery() {
+  const [images,   setImages]   = useState<Photo[]>(STATIC_IMAGES)
   const [current,  setCurrent]  = useState(0)
   const [visible,  setVisible]  = useState(true)
   const [expanded, setExpanded] = useState(false)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const reducedMotion = typeof window !== 'undefined'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  useEffect(() => {
+    fetch('/api/instagram')
+      .then(r => r.json())
+      .then(data => { if (data.photos?.length) setImages(data.photos) })
+      .catch(() => {})
+  }, [])
 
   const step = useCallback((dir: 1 | -1) => {
     if (reducedMotion) {
@@ -37,7 +47,7 @@ export default function PortfolioGallery() {
       setCurrent(c => (c + dir + images.length) % images.length)
       setVisible(true)
     }, FADE_MS)
-  }, [reducedMotion])
+  }, [reducedMotion, images.length])
 
   function startTimer() {
     if (reducedMotion) return
@@ -63,14 +73,13 @@ export default function PortfolioGallery() {
     return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
   }, [])
 
-  // Close expanded with Escape
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === 'Escape') setExpanded(false) }
     if (expanded) document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [expanded])
 
-  const img = images[current]
+  const img = images[current] ?? images[0]
 
   return (
     <>
@@ -144,7 +153,7 @@ export default function PortfolioGallery() {
 
           {/* Dot indicators */}
           <div className="flex items-center gap-1.5">
-            {images.map((_, i) => (
+            {images.map((_: Photo, i: number) => (
               <button
                 key={i}
                 onClick={() => goTo(i)}
@@ -197,7 +206,7 @@ export default function PortfolioGallery() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {images.map((img, i) => (
+              {images.map((img: Photo, i: number) => (
                 <button
                   key={i}
                   onClick={() => { setCurrent(i); setExpanded(false); startTimer() }}
