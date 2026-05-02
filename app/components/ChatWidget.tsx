@@ -12,27 +12,29 @@ const SUGGESTIONS = [
   'I want to book an appointment',
 ]
 
-// Render assistant message — turns [BOOK_LINK] into a styled button
-function MessageContent({ text, onClose, cancelUrl }: { text: string; onClose: () => void; cancelUrl: string }) {
+const BOOKSY_URL = 'https://booksy.com/en-us/1685341_another-planet-barber-co_barber-shop_134615_lansing'
+
+// Render assistant message — turns [BOOK_LINK] / [CANCEL_LINK] into styled buttons
+function MessageContent({ text, onClose }: { text: string; onClose: () => void }) {
   const segments = text.split(/(\[BOOK_LINK\]|\[CANCEL_LINK\])/g)
   return (
     <>
       {segments.map((seg, i) => {
         if (seg === '[BOOK_LINK]') return (
-          <a key={i} href="#contact"
-            onClick={() => { onClose(); setTimeout(() => window.scrollTo({ top: document.getElementById('contact')?.offsetTop ?? 0, behavior: 'smooth' }), 150) }}
+          <a key={i} href={BOOKSY_URL} target="_blank" rel="noopener noreferrer"
+            onClick={onClose}
             className="mt-2 flex items-center gap-2 text-white text-xs font-bold px-4 py-2 rounded-full transition w-fit"
             style={{ background: 'var(--color-cta)' }}>
-            <CalendarCheck size={13} /> Book an Appointment →
+            <CalendarCheck size={13} /> Book on Booksy →
           </a>
         )
         if (seg === '[CANCEL_LINK]') return (
           <a key={i}
-            href={cancelUrl || 'https://calendly.com/treybrucem/another-planet-barber'}
+            href={BOOKSY_URL}
             target="_blank" rel="noopener noreferrer"
             className="mt-2 flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-full transition w-fit"
             style={{ background: 'rgba(248,113,113,0.12)', border: '1px solid rgba(248,113,113,0.3)', color: '#f87171' }}>
-            <X size={13} /> Cancel or Reschedule →
+            <X size={13} /> Manage on Booksy →
           </a>
         )
         return <span key={i}>{seg}</span>
@@ -47,14 +49,8 @@ export default function ChatWidget() {
   const [input, setInput]         = useState('')
   const [loading, setLoading]     = useState(false)
   const [showLabel, setShowLabel] = useState(true)
-  const [cancelUrl, setCancelUrl] = useState('')
   const bottomRef                 = useRef<HTMLDivElement>(null)
   const inputRef                  = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    const c = localStorage.getItem('anp_cancel_url')
-    if (c) setCancelUrl(c)
-  }, [])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -189,7 +185,7 @@ export default function ChatWidget() {
                       : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderRadius: '0.25rem 1rem 1rem 1rem' }
                   }
                 >
-                  {m.role === 'assistant' ? <MessageContent text={m.content} onClose={() => setOpen(false)} cancelUrl={cancelUrl} /> : m.content}
+                  {m.role === 'assistant' ? <MessageContent text={m.content} onClose={() => setOpen(false)} /> : m.content}
                 </div>
               </div>
             ))}

@@ -5,7 +5,6 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon, CalendarDays } from 'lucide-react'
-import Script from 'next/script'
 import ChatWidget from './components/ChatWidget'
 import MarathonBanner from './components/MarathonBanner'
 import MarathonIntro from './components/MarathonIntro'
@@ -15,53 +14,21 @@ import ReviewCarousel from './components/ReviewCarousel'
 gsap.registerPlugin(ScrollTrigger)
 
 const services = [
-  { name: 'Burst Fade',     price: '$35', desc: 'Rounded fade bursting from the ear' },
-  { name: 'Temp Fade',      price: '$35', desc: 'Sharp temple taper, clean finish' },
-  { name: 'Full Cut',       price: '$35', desc: 'Complete cut shaped to your style' },
-  { name: 'Skin Fade',      price: '$35', desc: 'Seamless blend down to the skin' },
+  { name: 'Burst Fade',     price: '$50', desc: 'Rounded fade bursting from the ear' },
+  { name: 'Temp Fade',      price: '$50', desc: 'Sharp temple taper, clean finish' },
+  { name: 'Full Cut',       price: '$50', desc: 'Complete cut shaped to your style' },
+  { name: 'Skin Fade',      price: '$50', desc: 'Seamless blend down to the skin' },
   { name: 'Line Up',        price: '$25', desc: 'Crisp edges and clean lines' },
-  { name: 'Face Touch Up',  price: '$35', desc: 'Edge up and facial clean-up' },
-  { name: 'Beard Trim',     price: '$35', desc: 'Defined shape and sharp edges' },
+  { name: 'Face Touch Up',  price: '$50', desc: 'Edge up and facial clean-up' },
+  { name: 'Beard Trim',     price: '$50', desc: 'Defined shape and sharp edges' },
   { name: 'Kids Cut',       price: '$35', desc: 'Patient, precise cuts for kids' },
 ]
 
 export default function Home() {
   const [available, setAvailable] = useState<boolean | null>(null)
-  const [menuOpen, setMenuOpen]               = useState(false)
-  const [bookHighlight, setBookHighlight]     = useState(false)
-  const [firstName, setFirstName]             = useState('')
-  const [lastName, setLastName]               = useState('')
-  const [selectedService, setSelectedService] = useState('')
-  const [showErrors, setShowErrors]           = useState(false)
-  const [booked, setBooked]                   = useState(false)
-  const [cancelUrl, setCancelUrl]         = useState('')
-  const [rescheduleUrl, setRescheduleUrl] = useState('')
-  const lenisRef       = useRef<Lenis | null>(null)
-  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    function onMessage(e: MessageEvent) {
-      try {
-        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
-        if (data?.event === 'calendly.event_scheduled') {
-          const inviteeUri: string = data?.payload?.invitee?.uri ?? ''
-          const uuid = inviteeUri.split('/').pop()
-          if (uuid) {
-            const cancel     = `https://calendly.com/cancellations/${uuid}`
-            const reschedule = `https://calendly.com/reschedulings/${uuid}`
-            setCancelUrl(cancel)
-            setRescheduleUrl(reschedule)
-            localStorage.setItem('anp_cancel_url', cancel)
-            localStorage.setItem('anp_reschedule_url', reschedule)
-          }
-          setBooked(true)
-          setTimeout(() => setBooked(false), 8000)
-        }
-      } catch {}
-    }
-    window.addEventListener('message', onMessage)
-    return () => window.removeEventListener('message', onMessage)
-  }, [])
+  const [menuOpen, setMenuOpen]   = useState(false)
+  const lenisRef = useRef<Lenis | null>(null)
+  const BOOKSY_URL = 'https://booksy.com/en-us/1685341_another-planet-barber-co_barber-shop_134615_lansing'
 
   useEffect(() => {
     fetch('/api/availability', { cache: 'no-store' })
@@ -70,12 +37,6 @@ export default function Home() {
       .catch(() => setAvailable(null))
   }, [])
 
-  useEffect(() => {
-    const c = localStorage.getItem('anp_cancel_url')
-    const r = localStorage.getItem('anp_reschedule_url')
-    if (c) setCancelUrl(c)
-    if (r) setRescheduleUrl(r)
-  }, [])
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -115,59 +76,14 @@ export default function Home() {
     setMenuOpen(false)
   }
 
-  function goToBook(serviceName?: string) {
-    if (serviceName) setSelectedService(serviceName)
-    scrollTo('#contact')
-    if (highlightTimer.current) clearTimeout(highlightTimer.current)
-    setTimeout(() => {
-      setBookHighlight(true)
-      highlightTimer.current = setTimeout(() => setBookHighlight(false), 2000)
-    }, 900)
-  }
-
-  function openCalendly() {
-    if (!firstName.trim() || !lastName.trim() || !selectedService) {
-      setShowErrors(true)
-      return
-    }
-    setShowErrors(false)
-    ;(window as any).Calendly?.initPopupWidget({
-      url: 'https://calendly.com/treybrucem/another-planet-barber',
-      prefill: {
-        name: `${firstName.trim()} ${lastName.trim()}`,
-        customAnswers: { a1: selectedService },
-      },
-    })
+  function goToBook() {
+    window.open(BOOKSY_URL, '_blank')
   }
 
   return (
     <main className="min-h-screen text-white pb-16 md:pb-0" style={{ background: 'var(--color-bg)' }}>
       <MarathonIntro />
 
-      {/* ── Booking confirmation banner ── */}
-      {booked && (
-        <div className="fixed top-6 left-1/2 z-[100] -translate-x-1/2 w-[90vw] max-w-md px-6 py-4 rounded-2xl shadow-2xl border flex items-start gap-3"
-          style={{ background: 'var(--color-surface)', borderColor: 'var(--color-cta)' }}>
-          <span className="text-2xl">✅</span>
-          <div className="flex-1">
-            <p className="font-bold text-sm text-white">Appointment Scheduled!</p>
-            <div className="flex gap-3 mt-2">
-              {cancelUrl && (
-                <a href={cancelUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-xs font-semibold underline underline-offset-2" style={{ color: '#f87171' }}>
-                  Cancel
-                </a>
-              )}
-              {rescheduleUrl && (
-                <a href={rescheduleUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-xs font-semibold underline underline-offset-2" style={{ color: '#c084fc' }}>
-                  Reschedule
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── Navbar ── */}
       <header>
@@ -346,7 +262,7 @@ export default function Home() {
               </span>
             </div>
             <a
-              href={cancelUrl || 'https://calendly.com/treybrucem/another-planet-barber'}
+              href={BOOKSY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs underline underline-offset-4 w-fit hover:text-white transition"
@@ -461,83 +377,30 @@ export default function Home() {
               style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}
               data-gsap="fade-up"
             >
-              <div className="flex items-center gap-3 mb-7">
+              <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(168,85,247,0.12)' }}>
                   <Scissors size={12} style={{ color: 'var(--color-cta)' }} />
                 </div>
-                <span className="font-bold text-sm">Your Info</span>
+                <span className="font-bold text-sm">Book Your Appointment</span>
               </div>
-
-              <div className="flex flex-col gap-5">
-
-                {/* First + Last name row */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1">
-                    <input
-                      type="text" placeholder="First Name" value={firstName}
-                      onChange={e => { setFirstName(e.target.value); setShowErrors(false) }}
-                      className="bg-transparent pb-2.5 text-white text-sm placeholder-slate-700 focus:outline-none transition border-b"
-                      style={{ borderColor: showErrors && !firstName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)' }}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
-                      onBlur={e => (e.currentTarget.style.borderColor = showErrors && !firstName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)')}
-                    />
-                    {showErrors && !firstName.trim() && <span className="text-xs" style={{ color: '#f87171' }}>Required</span>}
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <input
-                      type="text" placeholder="Last Name" value={lastName}
-                      onChange={e => { setLastName(e.target.value); setShowErrors(false) }}
-                      className="bg-transparent pb-2.5 text-white text-sm placeholder-slate-700 focus:outline-none transition border-b"
-                      style={{ borderColor: showErrors && !lastName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)' }}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
-                      onBlur={e => (e.currentTarget.style.borderColor = showErrors && !lastName.trim() ? '#f87171' : 'rgba(255,255,255,0.09)')}
-                    />
-                    {showErrors && !lastName.trim() && <span className="text-xs" style={{ color: '#f87171' }}>Required</span>}
-                  </div>
-                </div>
-
-
-                {/* Service */}
-                <div className="flex flex-col gap-1">
-                  <select
-                    value={selectedService}
-                    onChange={e => { setSelectedService(e.target.value); setShowErrors(false) }}
-                    className="bg-transparent pb-2.5 text-sm focus:outline-none transition border-b appearance-none cursor-pointer"
-                    style={{
-                      borderColor: showErrors && !selectedService ? '#f87171' : 'rgba(255,255,255,0.09)',
-                      color: selectedService ? 'var(--color-text)' : '#4b5563',
-                    }}
-                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
-                    onBlur={e => (e.currentTarget.style.borderColor = showErrors && !selectedService ? '#f87171' : 'rgba(255,255,255,0.09)')}
-                  >
-                    <option value="" disabled style={{ background: '#0d1117' }}>Select a Service</option>
-                    {services.map(s => (
-                      <option key={s.name} value={s.name} style={{ background: '#0d1117' }}>{s.name} — {s.price}</option>
-                    ))}
-                  </select>
-                  {showErrors && !selectedService && <span className="text-xs" style={{ color: '#f87171' }}>Required</span>}
-                </div>
-
-                {/* Calendly button */}
-                <button
-                  onClick={openCalendly}
-                  className="mt-1 flex items-center justify-center gap-2 text-white font-bold py-3.5 rounded-full text-sm tracking-wide transition"
-                  style={{
-                    background: 'var(--color-cta)',
-                    outline: bookHighlight ? '2px solid #c084fc' : '2px solid transparent',
-                    outlineOffset: '4px',
-                    transition: 'background 0.2s, outline 0.5s ease',
-                  }}
+              <p className="text-sm mb-6" style={{ color: 'var(--color-text-muted)' }}>
+                Tap below to view Will's availability and pick your time on Booksy.
+              </p>
+              <div className="flex flex-col gap-3">
+                <a
+                  href={BOOKSY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 text-white font-bold py-3.5 rounded-full text-sm tracking-wide transition"
+                  style={{ background: 'var(--color-cta)' }}
                   onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-cta-hover)')}
                   onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-cta)')}
                 >
                   <CalendarDays size={14} />
-                  Pick a Date &amp; Time
-                </button>
-
-                {/* Cancel / Reschedule */}
+                  Book on Booksy
+                </a>
                 <a
-                  href={cancelUrl || 'https://calendly.com/treybrucem/another-planet-barber'}
+                  href={BOOKSY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 text-sm font-semibold py-3 rounded-full border transition hover:text-white hover:border-white"
@@ -624,7 +487,6 @@ export default function Home() {
       </footer>
 
       <ChatWidget />
-      <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />
     </main>
   )
 }
