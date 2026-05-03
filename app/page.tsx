@@ -356,6 +356,59 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════════
+          SECTION — ABOUT WILL
+      ════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-12" data-gsap="fade-up">
+            <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
+            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>The Man Behind The Chair</span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-gsap="fade-up">
+              <h2 className="text-4xl md:text-5xl font-black leading-tight mb-6">
+                Will doesn't just<br />
+                <span style={{ color: 'var(--color-accent)' }}>cut hair.</span>
+              </h2>
+              <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>
+                <p>He creates an experience. With nearly 600 five-star Google reviews and over 2,000 cuts documented across Instagram, TikTok, and Facebook, Another Planet Barbershop has become the go-to spot in Lansing for a reason.</p>
+                <p>Specializing in flawless fades, kids premier haircuts, and every hair texture imaginable, Will brings energy, precision, and good vibes to every single client that sits in his chair. Another Planet is also government recommended for special needs children's haircuts, because everyone deserves a great cut.</p>
+                <p>Come through, feel the vibe, and leave looking like the best version of yourself.</p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-6 mt-10">
+                {[
+                  { number: '600+', label: 'Five Star Reviews' },
+                  { number: '2,000+', label: 'Cuts Documented' },
+                  { number: '#1', label: 'Rated in Lansing' },
+                ].map(({ number, label }) => (
+                  <div key={label}>
+                    <div className="text-3xl font-black" style={{ color: 'var(--color-accent)' }}>{number}</div>
+                    <div className="text-xs mt-1 leading-tight" style={{ color: 'var(--color-text-dim)' }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-4" data-gsap="fade-up">
+              {[
+                { title: 'Government Recommended', desc: 'Certified for special needs children haircuts — trusted by families across Lansing.' },
+                { title: 'Nearly 600 Five-Star Reviews', desc: "Google's own AI highlights Will as one of Lansing's best barbers. The reputation speaks for itself." },
+                { title: 'Every Hair Type, Every Time', desc: 'Fades, tapers, kids cuts, shearwork — any texture, any style, done right.' },
+                { title: 'Good Vibes Guaranteed', desc: 'Walk in as a client, leave as a regular. The atmosphere is half the experience.' },
+              ].map(({ title, desc }) => (
+                <div key={title} className="p-5 rounded-2xl border" style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
+                  <div className="font-bold text-sm text-white mb-1">{title}</div>
+                  <div className="text-sm leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>{desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
           SECTION 3 — BOOKING + MAP
       ════════════════════════════════════════════ */}
       <section id="contact" className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
