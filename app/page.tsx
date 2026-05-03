@@ -242,8 +242,8 @@ export default function Home() {
                 className="w-2 h-2 rounded-full"
                 style={{ background: available ? '#4ade80' : '#f87171', boxShadow: available ? '0 0 6px #4ade80' : 'none' }}
               />
-              <span className="text-xs font-semibold tracking-wide" style={{ color: available ? '#4ade80' : '#f87171' }}>
-                {available ? 'Taking Walk-ins Now' : 'Not Taking Walk-ins'}
+              <span className="text-xs font-semibold tracking-wide" style={{ color: '#4ade80' }}>
+                WALK-INS WELCOME
               </span>
             </div>
           )}
@@ -259,12 +259,6 @@ export default function Home() {
               >
                 Book an Appointment
               </button>
-              <span
-                className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full border"
-                style={{ borderColor: 'rgba(74,222,128,0.4)', color: '#4ade80' }}
-              >
-                WALK-INS WELCOME
-              </span>
             </div>
             <a
               href={BOOKSY_URL}
