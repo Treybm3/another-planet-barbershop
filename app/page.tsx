@@ -261,9 +261,9 @@ export default function Home() {
               </button>
               <span
                 className="text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full border"
-                style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' }}
+                style={{ borderColor: 'rgba(74,222,128,0.4)', color: '#4ade80' }}
               >
-                Walk-ins Welcome
+                WALK-INS WELCOME
               </span>
             </div>
             <a
