@@ -5,6 +5,7 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MapPin, Phone, Clock, Menu, X, Scissors, Home as HomeIcon, CalendarDays } from 'lucide-react'
+import { motion } from 'framer-motion'
 import ChatWidget from './components/ChatWidget'
 import MarathonBanner from './components/MarathonBanner'
 import MarathonIntro from './components/MarathonIntro'
@@ -57,12 +58,23 @@ export default function Home() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    gsap.timeline({ delay: 0.1 })
-      .from('.hero-tag',     { x: -20, opacity: 0, duration: 0.5,  ease: 'power2.out' })
-      .from('.hero-heading', { x: -30, opacity: 0, duration: 0.75, ease: 'power3.out' }, '-=0.2')
-      .from('.hero-sub',     { x: -20, opacity: 0, duration: 0.55, ease: 'power2.out' }, '-=0.35')
-      .from('.hero-cta',     { x: -16, opacity: 0, duration: 0.45, ease: 'power2.out' }, '-=0.3')
-      .from('.hero-social',  { x: -12, opacity: 0, duration: 0.4,  ease: 'power2.out' }, '-=0.25')
+    gsap.from('.hero-tag',    { x: -20, opacity: 0, duration: 0.5,  ease: 'power2.out', delay: 0.1 })
+    gsap.from('.hero-sub',    { x: -20, opacity: 0, duration: 0.55, ease: 'power2.out', delay: 1.0 })
+    gsap.from('.hero-cta',    { x: -16, opacity: 0, duration: 0.45, ease: 'power2.out', delay: 1.15 })
+    gsap.from('.hero-social', { x: -12, opacity: 0, duration: 0.4,  ease: 'power2.out', delay: 1.3 })
+
+    import('splitting').then((mod) => {
+      const Splitting = (mod as any).default
+      Splitting({ target: '.hero-heading', by: 'words' })
+      gsap.from('.hero-heading .word', {
+        x: -40,
+        opacity: 0,
+        duration: 0.65,
+        ease: 'power3.out',
+        stagger: 0.07,
+        delay: 0.3,
+      })
+    })
 
     gsap.utils.toArray<HTMLElement>('[data-gsap="fade-up"]').forEach(el => {
       gsap.from(el, {
@@ -384,17 +396,20 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4">
               {services.map((s) => (
-                <button
+                <motion.button
                   key={s.name}
                   onClick={() => goToBook()}
-                  className="flex items-center justify-between border-b pb-3 text-left transition group"
+                  className="flex items-center justify-between border-b pb-3 text-left transition-colors group"
                   style={{ borderColor: 'var(--color-border)' }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--color-cta)')}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--color-border)')}
                 >
                   <span className="text-sm transition group-hover:text-white" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.name}</span>
                   <span className="text-sm font-bold" style={{ color: 'var(--color-accent)' }}>{s.price}</span>
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
