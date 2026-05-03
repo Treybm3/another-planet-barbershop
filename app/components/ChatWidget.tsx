@@ -60,6 +60,7 @@ export default function ChatWidget() {
     if (open) {
       setShowLabel(false)
       setTimeout(() => inputRef.current?.focus(), 120)
+      fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'chat' }) }).catch(() => {})
     }
   }, [open])
 

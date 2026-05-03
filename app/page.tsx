@@ -37,6 +37,10 @@ export default function Home() {
       .catch(() => setAvailable(null))
   }, [])
 
+  useEffect(() => {
+    fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'view' }) }).catch(() => {})
+  }, [])
+
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -77,6 +81,7 @@ export default function Home() {
   }
 
   function goToBook() {
+    fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'booksy' }) }).catch(() => {})
     window.open(BOOKSY_URL, '_blank')
   }
 
