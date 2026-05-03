@@ -5,6 +5,10 @@ function today() {
   return new Date().toISOString().slice(0, 10)
 }
 
+function thisMonth() {
+  return new Date().toISOString().slice(0, 7)
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { event } = await req.json()
@@ -12,10 +16,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false }, { status: 400 })
     }
 
-    const day = today()
+    const day   = today()
+    const month = thisMonth()
+
     await Promise.all([
       kv.incr(`anp:${event}:total`),
       kv.incr(`anp:${event}:${day}`),
+      kv.incr(`anp:${event}:${month}`),
+      kv.sadd('anp:months', month),
     ])
 
     return NextResponse.json({ ok: true })
@@ -32,14 +40,21 @@ export async function GET() {
       return d.toISOString().slice(0, 10)
     }).reverse()
 
-    const keys = [
-      'anp:view:total', 'anp:booksy:total', 'anp:chat:total',
+    const months: string[] = ((await kv.smembers('anp:months')) as string[]).sort()
+
+    const baseKeys = ['anp:view:total', 'anp:booksy:total', 'anp:chat:total']
+    const dayKeys  = [
       ...days.map(d => `anp:view:${d}`),
       ...days.map(d => `anp:booksy:${d}`),
       ...days.map(d => `anp:chat:${d}`),
     ]
+    const monthKeys = [
+      ...months.map(m => `anp:view:${m}`),
+      ...months.map(m => `anp:booksy:${m}`),
+      ...months.map(m => `anp:chat:${m}`),
+    ]
 
-    const values = await kv.mget<number[]>(...keys)
+    const values = await kv.mget<number[]>(...baseKeys, ...dayKeys, ...monthKeys)
 
     const totals = {
       views:  values[0] ?? 0,
@@ -49,13 +64,21 @@ export async function GET() {
 
     const daily = days.map((date, i) => ({
       date,
-      views:  values[3 + i]          ?? 0,
-      booksy: values[3 + 7 + i]      ?? 0,
-      chat:   values[3 + 14 + i]     ?? 0,
+      views:  values[3 + i]      ?? 0,
+      booksy: values[3 + 7 + i]  ?? 0,
+      chat:   values[3 + 14 + i] ?? 0,
     }))
 
-    return NextResponse.json({ totals, daily })
+    const base = 3 + days.length * 3
+    const monthly = months.map((month, i) => ({
+      month,
+      views:  values[base + i]                   ?? 0,
+      booksy: values[base + months.length + i]   ?? 0,
+      chat:   values[base + months.length * 2 + i] ?? 0,
+    }))
+
+    return NextResponse.json({ totals, daily, monthly })
   } catch {
-    return NextResponse.json({ totals: { views: 0, booksy: 0, chat: 0 }, daily: [] })
+    return NextResponse.json({ totals: { views: 0, booksy: 0, chat: 0 }, daily: [], monthly: [] })
   }
 }
