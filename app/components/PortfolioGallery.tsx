@@ -6,16 +6,12 @@ import { ChevronLeft, ChevronRight, X, Grid3X3 } from 'lucide-react'
 type Photo = { src: string; alt: string; label: string }
 
 const STATIC_IMAGES: Photo[] = [
-  { src: '/anp1.jpg',            alt: 'Fresh Cut',      label: 'Fresh Cut' },
-  { src: '/anp2.jpg',            alt: 'Burst Fade',     label: 'Burst Fade' },
-  { src: '/anp3.jpg',            alt: 'Temp Fade',      label: 'Temp Fade' },
-  { src: '/anp4.jpg',            alt: 'Full Cut',       label: 'Full Cut' },
-  { src: '/anp5.jpg',            alt: 'Skin Fade',      label: 'Skin Fade' },
-  { src: '/anp6.jpg',            alt: 'Line Up',        label: 'Line Up' },
-  { src: '/anp7.jpg',            alt: 'Precision Cut',  label: 'Precision Cut' },
-  { src: '/anp8.jpg',            alt: 'Clean Fade',     label: 'Clean Fade' },
-  { src: '/anpouterior.jpg.jpg', alt: 'The Shop',       label: 'Our Shop' },
-  { src: '/frontpic.jpg',        alt: 'Another Planet', label: 'Another Planet Barbershop' },
+  { src: '/will1.jpg', alt: 'Fresh Cut',     label: 'Fresh Cut' },
+  { src: '/will2.jpg', alt: 'Burst Fade',    label: 'Burst Fade' },
+  { src: '/will3.jpg', alt: 'Temp Fade',     label: 'Temp Fade' },
+  { src: '/will4.jpg', alt: 'Full Cut',      label: 'Full Cut' },
+  { src: '/will5.jpg', alt: 'Skin Fade',     label: 'Skin Fade' },
+  { src: '/will6.jpg', alt: 'Precision Cut', label: 'Precision Cut' },
 ]
 
 const FADE_MS = 350
