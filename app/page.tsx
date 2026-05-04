@@ -114,7 +114,7 @@ export default function Home() {
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="flex items-center gap-2.5"
             >
-              <img src="/logo.jpg" alt="Another Planet Barbershop" className="w-8 h-8 rounded-full object-cover" />
+              <img src="/logo.jpg" alt="Another Planet Barbershop" className="w-8 h-8 rounded-full object-cover animate-spin" style={{ animationDuration: '8s' }} />
               <span className="text-sm font-bold tracking-widest uppercase hidden sm:inline">Another Planet Barbershop</span>
               <span className="text-sm font-bold tracking-widest uppercase sm:hidden">Another Planet</span>
             </button>
