@@ -395,6 +395,72 @@ export default function Home() {
       <MarathonBanner />
 
       {/* ════════════════════════════════════════════
+          SECTION — THE SHOP (Exterior + Lineup)
+      ════════════════════════════════════════════ */}
+      <section className="px-6 md:px-14 pb-16 border-b" style={{ borderColor: 'var(--color-border)' }}>
+        <div className="max-w-6xl mx-auto">
+
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
+            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>The Shop</span>
+          </div>
+
+          {/* Exterior hero */}
+          <div
+            className="relative w-full rounded-2xl overflow-hidden mb-3"
+            style={{ height: '280px' }}
+            data-gsap="fade-up"
+          >
+            <img
+              src="/exterior.jpg"
+              alt="Another Planet Barbershop exterior"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: 'center 60%' }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to right, rgba(8,8,8,0.72) 0%, rgba(8,8,8,0.3) 55%, transparent 100%)' }}
+            />
+            <div className="absolute inset-0 flex flex-col justify-end p-7">
+              <span className="text-xs tracking-[0.28em] uppercase font-bold mb-1" style={{ color: '#f59e0b', textShadow: '0 0 12px rgba(245,158,11,0.8)' }}>
+                Come Visit Us
+              </span>
+              <p className="text-white font-black text-xl md:text-2xl leading-tight">Another Planet Barbershop</p>
+              <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>4306 Martin Luther King Blvd · Lansing, MI</p>
+            </div>
+            <div
+              className="absolute top-4 right-4 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase"
+              style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.4)', color: '#f59e0b', backdropFilter: 'blur(8px)' }}
+            >
+              Lansing, MI
+            </div>
+          </div>
+
+          {/* Lineup photo strip */}
+          <div className="grid grid-cols-4 gap-3" data-gsap="fade-up">
+            {['lineup.jpg', 'lineup2.jpg', 'lineup4.jpg', 'cut123.jpg'].map((src, i) => (
+              <div
+                key={i}
+                className="relative rounded-xl overflow-hidden"
+                style={{ height: '110px', border: '1px solid rgba(245,158,11,0.15)' }}
+              >
+                <img
+                  src={`/${src}`}
+                  alt="Another Planet Barbershop"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.55) 0%, transparent 60%)' }}
+                />
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
           SECTION 3 — REVIEWS + PORTFOLIO
       ════════════════════════════════════════════ */}
       <section id="reviews" className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
