@@ -16,13 +16,13 @@ export default function VoidParticles() {
     canvas.width  = width
     canvas.height = height
 
-    const particles = Array.from({ length: 55 }, () => ({
+    const particles = Array.from({ length: 80 }, () => ({
       x:      Math.random() * width,
       y:      Math.random() * height,
-      radius: Math.random() * 1.2 + 0.2,
-      base:   Math.random() * 0.18 + 0.03,
-      vx:     (Math.random() - 0.5) * 0.18,
-      vy:     (Math.random() - 0.5) * 0.18,
+      radius: Math.random() * 1.8 + 0.6,
+      base:   Math.random() * 0.3 + 0.12,
+      vx:     (Math.random() - 0.5) * 0.22,
+      vy:     (Math.random() - 0.5) * 0.22,
       phase:  Math.random() * Math.PI * 2,
     }))
 
@@ -43,7 +43,7 @@ export default function VoidParticles() {
         const opacity = p.base * (0.6 + 0.4 * Math.sin(t + p.phase))
         ctx!.beginPath()
         ctx!.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx!.fillStyle = `rgba(255,255,255,${opacity})`
+        ctx!.fillStyle = `rgba(245,158,11,${opacity})`
         ctx!.fill()
       }
 
@@ -70,7 +70,7 @@ export default function VoidParticles() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.55 }}
+      style={{ opacity: 0.85 }}
     />
   )
 }

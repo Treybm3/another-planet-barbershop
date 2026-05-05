@@ -318,7 +318,7 @@ export default function Home() {
               </h2>
               <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: 'var(--color-text-muted)' }}>
                 <p>He creates an experience. With nearly 600 five-star Google reviews and over 2,000 cuts documented across Instagram, TikTok, and Facebook, Another Planet Barbershop has become the go-to spot in Lansing for a reason.</p>
-                <p>Specializing in flawless fades, kids premier haircuts, and every hair texture imaginable, Will brings energy, precision, and good vibes to every single client that sits in his chair. Another Planet is also government recommended for special needs children's haircuts, because everyone deserves a great cut.</p>
+                <p>Specializing in flawless fades, kids premier haircuts, and every hair texture imaginable, Will brings energy, precision, and good vibes to every single client that sits in his chair. Everyone deserves a great cut — and Will makes sure they get one.</p>
                 <p>Come through, feel the vibe, and leave looking like the best version of yourself.</p>
               </div>
 
@@ -338,7 +338,6 @@ export default function Home() {
 
             <div className="flex flex-col gap-4" data-gsap="fade-up">
               {[
-                { title: 'Government Recommended', desc: 'Certified for special needs children haircuts — trusted by families across Lansing.' },
                 { title: 'Nearly 600 Five-Star Reviews', desc: "Google's own AI highlights Will as one of Lansing's best barbers. The reputation speaks for itself." },
                 { title: 'Every Hair Type, Every Time', desc: 'Fades, tapers, kids cuts, shearwork — any texture, any style, done right.' },
                 { title: 'Good Vibes Guaranteed', desc: 'Walk in as a client, leave as a regular. The atmosphere is half the experience.' },
