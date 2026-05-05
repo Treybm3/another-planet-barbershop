@@ -11,6 +11,7 @@ import MarathonBanner from './components/MarathonBanner'
 import MarathonIntro from './components/MarathonIntro'
 import PortfolioGallery from './components/PortfolioGallery'
 import ReviewCarousel from './components/ReviewCarousel'
+import VoidParticles from './components/VoidParticles'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -301,8 +302,9 @@ export default function Home() {
       {/* ════════════════════════════════════════════
           SECTION 2 — ABOUT WILL
       ════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
-        <div className="max-w-6xl mx-auto">
+      <section className="relative py-16 md:py-24 px-6 md:px-14 border-t overflow-hidden" style={{ borderColor: 'var(--color-border)' }}>
+        <VoidParticles />
+        <div className="relative z-10 max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-12" data-gsap="fade-up">
             <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
             <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>The Man Behind The Chair</span>

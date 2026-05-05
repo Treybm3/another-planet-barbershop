@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Flame, Users } from 'lucide-react'
 
-const MARATHON_DATE = 'June 2026'
-const LS_KEY        = 'anp_marathon_in'
+const LS_KEY_PERMANENT = 'anp_marathon_confirmed' // permanent — pre-June
+const LS_KEY_DAILY     = 'anp_marathon_in'         // date-based — June+
 
 function getToday() {
   return new Date().toLocaleDateString('en-US', {
@@ -12,20 +12,33 @@ function getToday() {
   })
 }
 
+function isJune2026OrLater() {
+  const now = new Date()
+  return now.getFullYear() > 2026 || (now.getFullYear() === 2026 && now.getMonth() >= 5)
+}
+
 type Dot = { x: number; y: number; size: number; opacity: number; delay: number }
 
 export default function MarathonBanner() {
   const [count,   setCount]   = useState<number | null>(null)
+  const [isLive,  setIsLive]  = useState(false)
   const [clicked, setClicked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [dots,    setDots]    = useState<Dot[]>([])
 
   useEffect(() => {
-    if (localStorage.getItem(LS_KEY) === getToday()) setClicked(true)
+    // Check if this person already clicked — permanent or daily depending on mode
+    if (isJune2026OrLater()) {
+      if (localStorage.getItem(LS_KEY_DAILY) === getToday()) setClicked(true)
+    } else {
+      if (localStorage.getItem(LS_KEY_PERMANENT) === 'true') setClicked(true)
+    }
+
     fetch('/api/marathon', { cache: 'no-store' })
       .then(r => r.json())
-      .then(d => setCount(d.count))
+      .then(d => { setCount(d.count); setIsLive(d.isLive) })
       .catch(() => setCount(0))
+
     setDots(
       Array.from({ length: 16 }, () => ({
         x:       Math.random() * 100,
@@ -44,8 +57,14 @@ export default function MarathonBanner() {
       const res  = await fetch('/api/marathon', { method: 'POST' })
       const data = await res.json()
       setCount(data.count)
+      setIsLive(data.isLive)
       setClicked(true)
-      localStorage.setItem(LS_KEY, getToday())
+      // Save permanently pre-June, daily once June hits
+      if (isJune2026OrLater()) {
+        localStorage.setItem(LS_KEY_DAILY, getToday())
+      } else {
+        localStorage.setItem(LS_KEY_PERMANENT, 'true')
+      }
     } finally {
       setLoading(false)
     }
@@ -89,7 +108,7 @@ export default function MarathonBanner() {
               <div className="flex items-center gap-2 mb-6">
                 <Flame size={12} style={{ color: '#f97316' }} />
                 <span className="text-xs font-bold tracking-[0.28em] uppercase" style={{ color: '#f97316' }}>
-                  Community Event · {MARATHON_DATE}
+                  {isLive ? 'Live Today · Community Event' : 'Coming June 2026 · Community Event'}
                 </span>
               </div>
 
@@ -107,9 +126,10 @@ export default function MarathonBanner() {
               </h2>
 
               <p className="text-sm md:text-base max-w-md mb-8 leading-relaxed" style={{ color: '#71717a' }}>
-                Will is giving back to the community — one full day of{' '}
-                <span style={{ color: '#e8dcc8' }}>free cuts</span>.
-                No appointment, no booking. Just show up.
+                {isLive
+                  ? <>Will is giving back to the community — one full day of{' '}<span style={{ color: '#e8dcc8' }}>free cuts</span>. No appointment. Just show up.</>
+                  : <>All of June 2026, Will is giving back to the community.{' '}<span style={{ color: '#e8dcc8' }}>Free cuts for everyone — no appointment, no cost, no catch.</span>{' '}Just show up. Hit the button so we know you&rsquo;re coming.</>
+                }
               </p>
 
               <button
@@ -132,19 +152,30 @@ export default function MarathonBanner() {
                   />
                 )}
                 <span className="relative">
-                  {clicked ? '✓ You\'re In!' : loading ? '…' : 'Count Me In'}
+                  {clicked
+                    ? isLive ? "✓ You're In!" : "✓ You're on the List!"
+                    : loading ? '…'
+                    : isLive ? 'Count Me In' : 'I Want a Free Cut in June'}
                 </span>
               </button>
+
+              {clicked && !isLive && (
+                <p className="mt-3 text-xs" style={{ color: '#52525b' }}>
+                  We&rsquo;ll see you in June. Spread the word. 🔥
+                </p>
+              )}
             </div>
 
-            {/* Right — live counter (always visible) */}
+            {/* Right — counter */}
             <div
               className="flex flex-col items-center justify-center gap-2 p-8 md:p-12 lg:min-w-[200px] border-t lg:border-t-0 lg:border-l"
               style={{ borderColor: 'rgba(245,158,11,0.1)', background: 'rgba(245,158,11,0.025)' }}
             >
               <div className="flex items-center gap-1.5 mb-1" style={{ color: '#52525b' }}>
                 <Users size={12} />
-                <span className="text-[10px] tracking-[0.22em] uppercase">Today</span>
+                <span className="text-[10px] tracking-[0.22em] uppercase">
+                  {isLive ? 'Today' : 'Signed Up'}
+                </span>
               </div>
 
               <div
@@ -166,12 +197,12 @@ export default function MarathonBanner() {
               <div
                 className="mt-3 text-[10px] tracking-[0.18em] uppercase px-3 py-1.5 rounded-full"
                 style={{
-                  background:  'rgba(245,158,11,0.07)',
-                  color:       'rgba(245,158,11,0.45)',
-                  border:      '1px solid rgba(245,158,11,0.1)',
+                  background: 'rgba(245,158,11,0.07)',
+                  color:      'rgba(245,158,11,0.45)',
+                  border:     '1px solid rgba(245,158,11,0.1)',
                 }}
               >
-                Resets Daily
+                {isLive ? 'Resets Daily' : 'Building Hype'}
               </div>
             </div>
 

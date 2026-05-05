@@ -6,12 +6,15 @@ import { ChevronLeft, ChevronRight, X, Grid3X3 } from 'lucide-react'
 type Photo = { src: string; alt: string; label: string }
 
 const STATIC_IMAGES: Photo[] = [
-  { src: '/will1.jpg', alt: 'Fresh Cut',     label: 'Fresh Cut' },
-  { src: '/will2.jpg', alt: 'Burst Fade',    label: 'Burst Fade' },
-  { src: '/will3.jpg', alt: 'Temp Fade',     label: 'Temp Fade' },
-  { src: '/will4.jpg', alt: 'Full Cut',      label: 'Full Cut' },
-  { src: '/will5.jpg', alt: 'Skin Fade',     label: 'Skin Fade' },
-  { src: '/will6.jpg', alt: 'Precision Cut', label: 'Precision Cut' },
+  { src: '/will1.jpg',    alt: 'Fresh Cut',     label: 'Fresh Cut' },
+  { src: '/will2.jpg',    alt: 'Burst Fade',    label: 'Burst Fade' },
+  { src: '/will3.jpg',    alt: 'Temp Fade',     label: 'Temp Fade' },
+  { src: '/will4.jpg',    alt: 'Full Cut',      label: 'Full Cut' },
+  { src: '/will5.jpg',    alt: 'Skin Fade',     label: 'Skin Fade' },
+  { src: '/will6.jpg',    alt: 'Precision Cut', label: 'Precision Cut' },
+  { src: '/another1.jpg', alt: 'Clean Cut',     label: 'Clean Cut' },
+  { src: '/another2.jpg', alt: 'Fade',          label: 'Fade' },
+  { src: '/another3.jpg', alt: 'Fresh Fade',    label: 'Fresh Fade' },
 ]
 
 const FADE_MS = 350
