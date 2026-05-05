@@ -70,7 +70,7 @@ export default function VoidParticles() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 1 }}
+      style={{ opacity: 1, zIndex: -1 }}
     />
   )
 }

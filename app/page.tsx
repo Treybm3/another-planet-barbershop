@@ -299,12 +299,15 @@ export default function Home() {
 
       </section>
 
+      {/* ── Particle wrapper: covers everything below the hero ── */}
+      <div style={{ position: 'relative', isolation: 'isolate', overflow: 'hidden' }}>
+      <VoidParticles />
+
       {/* ════════════════════════════════════════════
           SECTION 2 — ABOUT WILL
       ════════════════════════════════════════════ */}
-      <section className="relative py-16 md:py-24 px-6 md:px-14 border-t overflow-hidden" style={{ borderColor: 'var(--color-border)' }}>
-        <VoidParticles />
-        <div className="relative z-10 max-w-6xl mx-auto">
+      <section className="py-16 md:py-24 px-6 md:px-14 border-t" style={{ borderColor: 'var(--color-border)' }}>
+        <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-12" data-gsap="fade-up">
             <div className="h-px w-8" style={{ background: 'var(--color-cta)' }} />
             <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: 'var(--color-cta)' }}>The Man Behind The Chair</span>
@@ -531,7 +534,7 @@ export default function Home() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="px-8 md:px-14 py-8 border-t" style={{ borderColor: 'var(--color-border)' }}>
+      <footer className="px-8 md:px-14 py-8 border-t" style={{ borderColor: 'var(--color-border)', position: 'relative' }}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs" style={{ color: 'var(--color-text-dim)' }}>
           <div className="flex items-center gap-2">
             <Scissors size={11} style={{ color: 'var(--color-cta)' }} />
@@ -553,6 +556,8 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      </div>{/* end particle wrapper */}
 
       <ChatWidget />
     </main>
