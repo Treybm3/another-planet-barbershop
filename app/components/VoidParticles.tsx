@@ -16,13 +16,13 @@ export default function VoidParticles() {
     canvas.width  = width
     canvas.height = height
 
-    const particles = Array.from({ length: 80 }, () => ({
+    const particles = Array.from({ length: 130 }, () => ({
       x:      Math.random() * width,
       y:      Math.random() * height,
-      radius: Math.random() * 1.8 + 0.6,
-      base:   Math.random() * 0.48 + 0.25,
-      vx:     (Math.random() - 0.5) * 0.22,
-      vy:     (Math.random() - 0.5) * 0.22,
+      radius: Math.random() * 2.8 + 1.2,
+      base:   Math.random() * 0.45 + 0.45,
+      vx:     (Math.random() - 0.5) * 0.28,
+      vy:     (Math.random() - 0.5) * 0.28,
       phase:  Math.random() * Math.PI * 2,
     }))
 
