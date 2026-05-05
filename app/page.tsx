@@ -436,27 +436,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Lineup photo strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3" data-gsap="fade-up">
-            {['lineup.jpg', 'lineup2.jpg', 'lineup4.jpg', 'cut123.jpg'].map((src, i) => (
-              <div
-                key={i}
-                className="relative rounded-xl overflow-hidden"
-                style={{ height: '130px', border: '1px solid rgba(245,158,11,0.15)' }}
-              >
-                <img
-                  src={`/${src}`}
-                  alt="Another Planet Barbershop"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.55) 0%, transparent 60%)' }}
-                />
-              </div>
-            ))}
-          </div>
-
         </div>
       </section>
 
