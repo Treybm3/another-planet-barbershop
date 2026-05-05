@@ -326,21 +326,25 @@ export default function Home() {
               </div>
 
               <div
-                className="mt-10 rounded-2xl overflow-hidden border"
-                style={{ borderColor: 'rgba(245,158,11,0.2)', background: 'rgba(245,158,11,0.03)' }}
+                className="mt-10 rounded-2xl overflow-hidden"
+                style={{
+                  border: '1px solid rgba(245,158,11,0.45)',
+                  background: 'linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(8,8,8,0.9) 60%, rgba(249,115,22,0.08) 100%)',
+                  boxShadow: '0 0 40px rgba(245,158,11,0.12), inset 0 1px 0 rgba(245,158,11,0.2)',
+                }}
               >
                 {/* Logo header */}
                 <div
-                  className="flex flex-col items-center py-6 border-b"
-                  style={{ borderColor: 'rgba(245,158,11,0.12)' }}
+                  className="flex flex-col items-center py-7 border-b"
+                  style={{ borderColor: 'rgba(245,158,11,0.25)' }}
                 >
                   <img
                     src="/logo.jpg"
                     alt="Another Planet Barbershop"
-                    className="w-14 h-14 rounded-full object-cover"
-                    style={{ boxShadow: '0 0 28px rgba(245,158,11,0.55), 0 0 60px rgba(245,158,11,0.18)' }}
+                    className="w-20 h-20 rounded-full object-cover"
+                    style={{ boxShadow: '0 0 0 3px rgba(245,158,11,0.35), 0 0 40px rgba(245,158,11,0.7), 0 0 80px rgba(245,158,11,0.25)' }}
                   />
-                  <span className="mt-3 text-[10px] tracking-[0.25em] uppercase font-semibold" style={{ color: 'rgba(245,158,11,0.6)' }}>
+                  <span className="mt-4 text-[10px] tracking-[0.3em] uppercase font-bold" style={{ color: '#f59e0b' }}>
                     Another Planet Barbershop
                   </span>
                 </div>
@@ -354,16 +358,16 @@ export default function Home() {
                   ].map(({ number, label }, i) => (
                     <div
                       key={label}
-                      className="flex flex-col items-center justify-center py-6 text-center"
-                      style={{ borderLeft: i > 0 ? '1px solid rgba(245,158,11,0.12)' : 'none' }}
+                      className="flex flex-col items-center justify-center py-7 text-center"
+                      style={{ borderLeft: i > 0 ? '1px solid rgba(245,158,11,0.25)' : 'none' }}
                     >
                       <div
-                        className="text-2xl md:text-3xl font-black tabular-nums"
-                        style={{ color: '#f59e0b', textShadow: '0 0 20px rgba(245,158,11,0.5)' }}
+                        className="text-3xl md:text-4xl font-black tabular-nums"
+                        style={{ color: '#f59e0b', textShadow: '0 0 24px rgba(245,158,11,0.8), 0 0 48px rgba(245,158,11,0.3)' }}
                       >
                         {number}
                       </div>
-                      <div className="text-[10px] mt-1.5 leading-tight tracking-wide" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                      <div className="text-[10px] mt-2 leading-tight tracking-widest uppercase font-semibold" style={{ color: 'rgba(255,255,255,0.45)' }}>
                         {label}
                       </div>
                     </div>
