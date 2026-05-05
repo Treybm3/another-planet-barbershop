@@ -325,17 +325,50 @@ export default function Home() {
                 <p>Come through, feel the vibe, and leave looking like the best version of yourself.</p>
               </div>
 
-              <div className="grid grid-cols-3 gap-6 mt-10">
-                {[
-                  { number: '600+', label: 'Five Star Reviews' },
-                  { number: '2,000+', label: 'Cuts Documented' },
-                  { number: '#1', label: 'Rated in Lansing' },
-                ].map(({ number, label }) => (
-                  <div key={label}>
-                    <div className="text-3xl font-black" style={{ color: 'var(--color-accent)' }}>{number}</div>
-                    <div className="text-xs mt-1 leading-tight" style={{ color: 'var(--color-text-dim)' }}>{label}</div>
-                  </div>
-                ))}
+              <div
+                className="mt-10 rounded-2xl overflow-hidden border"
+                style={{ borderColor: 'rgba(245,158,11,0.2)', background: 'rgba(245,158,11,0.03)' }}
+              >
+                {/* Logo header */}
+                <div
+                  className="flex flex-col items-center py-6 border-b"
+                  style={{ borderColor: 'rgba(245,158,11,0.12)' }}
+                >
+                  <img
+                    src="/logo.jpg"
+                    alt="Another Planet Barbershop"
+                    className="w-14 h-14 rounded-full object-cover"
+                    style={{ boxShadow: '0 0 28px rgba(245,158,11,0.55), 0 0 60px rgba(245,158,11,0.18)' }}
+                  />
+                  <span className="mt-3 text-[10px] tracking-[0.25em] uppercase font-semibold" style={{ color: 'rgba(245,158,11,0.6)' }}>
+                    Another Planet Barbershop
+                  </span>
+                </div>
+
+                {/* Stats row */}
+                <div className="grid grid-cols-3">
+                  {[
+                    { number: '600+',   label: 'Five Star Reviews' },
+                    { number: '2,000+', label: 'Cuts Documented' },
+                    { number: '#1',     label: 'Rated in Lansing' },
+                  ].map(({ number, label }, i) => (
+                    <div
+                      key={label}
+                      className="flex flex-col items-center justify-center py-6 text-center"
+                      style={{ borderLeft: i > 0 ? '1px solid rgba(245,158,11,0.12)' : 'none' }}
+                    >
+                      <div
+                        className="text-2xl md:text-3xl font-black tabular-nums"
+                        style={{ color: '#f59e0b', textShadow: '0 0 20px rgba(245,158,11,0.5)' }}
+                      >
+                        {number}
+                      </div>
+                      <div className="text-[10px] mt-1.5 leading-tight tracking-wide" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                        {label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

@@ -20,7 +20,7 @@ export default function VoidParticles() {
       x:      Math.random() * width,
       y:      Math.random() * height,
       radius: Math.random() * 1.8 + 0.6,
-      base:   Math.random() * 0.38 + 0.18,
+      base:   Math.random() * 0.48 + 0.25,
       vx:     (Math.random() - 0.5) * 0.22,
       vy:     (Math.random() - 0.5) * 0.22,
       phase:  Math.random() * Math.PI * 2,
