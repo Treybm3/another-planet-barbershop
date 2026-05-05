@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import { Eye, CalendarCheck, MessageCircle, ChevronDown } from 'lucide-react'
 import VoidParticles from '../components/VoidParticles'
