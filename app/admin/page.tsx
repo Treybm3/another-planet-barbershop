@@ -18,6 +18,15 @@ export default function AdminPage() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null)
   const [openYear,  setOpenYear]  = useState<string | null>(null)
 
+  // Force reload if Safari restores from bfcache
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload()
+    }
+    window.addEventListener('pageshow', handlePageShow)
+    return () => window.removeEventListener('pageshow', handlePageShow)
+  }, [])
+
   useEffect(() => {
     fetch('/api/track', { cache: 'no-store' })
       .then(r => r.json())
