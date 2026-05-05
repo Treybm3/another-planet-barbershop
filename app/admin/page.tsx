@@ -95,7 +95,7 @@ export default function AdminPage() {
               <div className="flex-1">
                 <div className="text-xs font-bold tracking-[0.2em] uppercase mb-1" style={{ color: '#52525b' }}>{label}</div>
                 <div
-                  className="text-5xl font-black tabular-nums"
+                  className="text-4xl sm:text-5xl font-black tabular-nums"
                   style={{ color, textShadow: `0 0 24px ${glow}, 0 0 48px ${glow.replace('0.35', '0.15')}` }}
                 >
                   {value ?? '0'}
@@ -191,7 +191,7 @@ export default function AdminPage() {
                         style={{ borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
                       >
                         <span className="text-sm font-semibold text-white">{monthLabel(row.month)}</span>
-                        <div className="flex gap-4 text-xs" style={{ color: '#52525b' }}>
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs justify-end" style={{ color: '#52525b' }}>
                           <span><span className="font-bold" style={{ color: '#60a5fa' }}>{row.views}</span> visits</span>
                           <span><span className="font-bold" style={{ color: '#4ade80' }}>{row.booksy}</span> booksy</span>
                           <span><span className="font-bold" style={{ color: '#f97316' }}>{row.chat}</span> chats</span>

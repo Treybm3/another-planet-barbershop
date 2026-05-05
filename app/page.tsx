@@ -437,12 +437,12 @@ export default function Home() {
           </div>
 
           {/* Lineup photo strip */}
-          <div className="grid grid-cols-4 gap-3" data-gsap="fade-up">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3" data-gsap="fade-up">
             {['lineup.jpg', 'lineup2.jpg', 'lineup4.jpg', 'cut123.jpg'].map((src, i) => (
               <div
                 key={i}
                 className="relative rounded-xl overflow-hidden"
-                style={{ height: '110px', border: '1px solid rgba(245,158,11,0.15)' }}
+                style={{ height: '130px', border: '1px solid rgba(245,158,11,0.15)' }}
               >
                 <img
                   src={`/${src}`}
