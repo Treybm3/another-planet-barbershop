@@ -84,7 +84,11 @@ export default function MarathonIntro() {
             FREE CUT<br />MARATHON
           </div>
 
-          <div className="text-sm font-semibold text-white opacity-65 tracking-wide">
+          <div className="text-sm font-black text-white tracking-widest uppercase opacity-90">
+            The Flawless Fade Tour
+          </div>
+
+          <div className="text-xs font-semibold text-white opacity-50 tracking-wide">
             Another Planet Barbershop
           </div>
         </div>

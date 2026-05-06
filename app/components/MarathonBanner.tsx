@@ -105,11 +105,18 @@ export default function MarathonBanner() {
             {/* Left — text + button */}
             <div className="p-8 md:p-12">
 
-              <div className="flex items-center gap-2 mb-6">
-                <Flame size={12} style={{ color: '#f97316' }} />
-                <span className="text-xs font-bold tracking-[0.28em] uppercase" style={{ color: '#f97316' }}>
-                  {isLive ? 'Live Today · Community Event' : 'Coming June 2026 · Community Event'}
+              <div
+                className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full border"
+                style={{ background: 'rgba(245,158,11,0.08)', borderColor: 'rgba(245,158,11,0.3)' }}
+              >
+                <Flame size={12} style={{ color: '#f59e0b' }} />
+                <span className="text-xs font-black tracking-[0.22em] uppercase" style={{ color: '#f59e0b' }}>
+                  The Flawless Fade Tour
                 </span>
+              </div>
+
+              <div className="text-[10px] font-bold tracking-[0.24em] uppercase mb-6" style={{ color: '#52525b' }}>
+                {isLive ? 'Live Today · Community Event' : 'Coming June 2026 · Community Event'}
               </div>
 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-none mb-1" style={{ color: '#e8dcc8' }}>
@@ -127,8 +134,8 @@ export default function MarathonBanner() {
 
               <p className="text-sm md:text-base max-w-md mb-8 leading-relaxed" style={{ color: '#71717a' }}>
                 {isLive
-                  ? <>Will is giving back to the community — one full day of{' '}<span style={{ color: '#e8dcc8' }}>free cuts</span>. No appointment. Just show up.</>
-                  : <>All of June 2026, Will is giving back to the community.{' '}<span style={{ color: '#e8dcc8' }}>Free cuts for everyone — no appointment, no cost, no catch.</span>{' '}Just show up. Hit the button so we know you&rsquo;re coming.</>
+                  ? <>Free fades, free food, free drinks.{' '}<span style={{ color: '#e8dcc8' }}>No appointment needed. Just show up.</span></>
+                  : <>Free fades, free food, free drinks.{' '}<span style={{ color: '#e8dcc8' }}>No appointment, no cost, no catch.</span>{' '}All of June 2026. Hit the button so we know you&rsquo;re coming.</>
                 }
               </p>
 
