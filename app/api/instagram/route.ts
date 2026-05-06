@@ -19,9 +19,9 @@ export async function GET() {
     const data = await res.json()
 
     const photos = (data.data ?? [])
-      .filter((p: any) => p.media_type === 'IMAGE' || p.media_type === 'CAROUSEL_ALBUM')
+      .filter((p: any) => p.media_type === 'IMAGE' || p.media_type === 'CAROUSEL_ALBUM' || p.media_type === 'VIDEO')
       .map((p: any) => ({
-        src:   p.media_url,
+        src:   p.media_type === 'VIDEO' ? p.thumbnail_url : p.media_url,
         alt:   p.caption?.split('\n')[0]?.slice(0, 60) ?? 'Another Planet Barbershop',
         label: p.caption?.split('\n')[0]?.slice(0, 40) ?? 'Another Planet',
       }))
