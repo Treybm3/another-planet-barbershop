@@ -407,19 +407,17 @@ export default function Home() {
 
           {/* Exterior hero */}
           <div
-            className="relative w-full rounded-2xl overflow-hidden mb-3"
-            style={{ height: '280px' }}
+            className="relative w-full rounded-2xl overflow-hidden mb-3 h-[280px] md:h-[420px]"
             data-gsap="fade-up"
           >
             <img
               src="/exterior.jpg"
               alt="Another Planet Barbershop exterior"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center 60%' }}
+              className="absolute inset-0 w-full h-full object-cover object-[center_60%] md:object-[center_35%]"
             />
             <div
               className="absolute inset-0"
-              style={{ background: 'linear-gradient(to right, rgba(8,8,8,0.72) 0%, rgba(8,8,8,0.3) 55%, transparent 100%)' }}
+              style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.4) 45%, transparent 75%), linear-gradient(to right, rgba(8,8,8,0.5) 0%, transparent 60%)' }}
             />
             <div className="absolute inset-0 flex flex-col justify-end p-7">
               <span className="text-xs tracking-[0.28em] uppercase font-bold mb-1" style={{ color: '#f59e0b', textShadow: '0 0 12px rgba(245,158,11,0.8)' }}>
