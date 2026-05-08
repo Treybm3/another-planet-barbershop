@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Flame, Users } from 'lucide-react'
+import { Flame } from 'lucide-react'
 
 const LS_KEY_PERMANENT = 'anp_marathon_confirmed' // permanent — pre-June
 const LS_KEY_DAILY     = 'anp_marathon_in'         // date-based — June+
@@ -20,7 +20,6 @@ function isJune2026OrLater() {
 type Dot = { x: number; y: number; size: number; opacity: number; delay: number }
 
 export default function MarathonBanner() {
-  const [count,   setCount]   = useState<number | null>(null)
   const [isLive,  setIsLive]  = useState(false)
   const [clicked, setClicked] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -36,8 +35,8 @@ export default function MarathonBanner() {
 
     fetch('/api/marathon', { cache: 'no-store' })
       .then(r => r.json())
-      .then(d => { setCount(d.count); setIsLive(d.isLive) })
-      .catch(() => setCount(0))
+      .then(d => { setIsLive(d.isLive) })
+      .catch(() => {})
 
     setDots(
       Array.from({ length: 16 }, () => ({
@@ -56,7 +55,6 @@ export default function MarathonBanner() {
     try {
       const res  = await fetch('/api/marathon', { method: 'POST' })
       const data = await res.json()
-      setCount(data.count)
       setIsLive(data.isLive)
       setClicked(true)
       // Save permanently pre-June, daily once June hits
@@ -100,7 +98,7 @@ export default function MarathonBanner() {
             ))}
           </div>
 
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_auto]">
+          <div className="relative z-10 grid grid-cols-1">
 
             {/* Left — text + button */}
             <div className="p-8 md:p-12">
@@ -171,46 +169,6 @@ export default function MarathonBanner() {
                   We&rsquo;ll see you in June. Spread the word. 🔥
                 </p>
               )}
-            </div>
-
-            {/* Right — counter */}
-            <div
-              className="flex flex-col items-center justify-center gap-2 p-8 md:p-12 lg:min-w-[200px] border-t lg:border-t-0 lg:border-l"
-              style={{ borderColor: 'rgba(245,158,11,0.1)', background: 'rgba(245,158,11,0.025)' }}
-            >
-              <div className="flex items-center gap-1.5 mb-1" style={{ color: '#52525b' }}>
-                <Users size={12} />
-                <span className="text-[10px] tracking-[0.22em] uppercase">
-                  {isLive ? 'Today' : 'Signed Up'}
-                </span>
-              </div>
-
-              <div
-                className="text-6xl md:text-7xl font-black tabular-nums leading-none"
-                style={{
-                  color:      '#f59e0b',
-                  textShadow: '0 0 36px rgba(245,158,11,0.45)',
-                  minWidth:   '2.5ch',
-                  textAlign:  'center',
-                }}
-              >
-                {count === null ? '—' : count}
-              </div>
-
-              <div className="text-xs text-center" style={{ color: '#52525b' }}>
-                {count === 1 ? 'person interested' : 'people interested'}
-              </div>
-
-              <div
-                className="mt-3 text-[10px] tracking-[0.18em] uppercase px-3 py-1.5 rounded-full"
-                style={{
-                  background: 'rgba(245,158,11,0.07)',
-                  color:      'rgba(245,158,11,0.45)',
-                  border:     '1px solid rgba(245,158,11,0.1)',
-                }}
-              >
-                {isLive ? 'Resets Daily' : 'Building Hype'}
-              </div>
             </div>
 
           </div>
